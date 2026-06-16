@@ -1,0 +1,141 @@
+sIFAC — Statement of Intellectual Fellowship and Accountability for Content
+Copyright 2026 > Luis Ferreira
+
+This product is a derivative work of the sIfA Tool and is released under the
+Apache License, Version 2.0.
+
+────────────────────────────────────────────────────────────────────
+Upstream work (carried per Apache 2.0, section 4d)
+────────────────────────────────────────────────────────────────────
+
+sIFAC is adapted from:
+
+  sIfA Tool — Statement of Intellectual Fellowship and Accountability
+  Copyright 2026 Mareike Schomerus / Busara
+  https://github.com/mareikeschomerus-ctrl/sIfA
+
+  This product includes software developed by Mareike Schomerus at Busara.
+
+The brain-figure artwork (silhouette, gyri and tissue detailing) is reused
+verbatim from the sIfA Tool and remains (c) Mareike Schomerus / Busara.
+
+Note on the underlying taxonomy: the upstream sIfA tool builds on the CRediT
+Contributor Roles Taxonomy (a NISO standard, https://credit.niso.org). sIFAC
+does NOT use CRediT — it replaces that taxonomy with its own nine-stage
+content taxonomy — so the CRediT attribution does not travel with sIFAC.
+
+────────────────────────────────────────────────────────────────────
+Changes made in sIFAC (per Apache 2.0, section 4b)
+────────────────────────────────────────────────────────────────────
+
+  • The 14-role CRediT research taxonomy is replaced by a nine-stage taxonomy
+    for written content: Conception & Angle; Research & Sourcing; Structure;
+    Drafting; Editing & Refinement; Revision; Translation;
+    Fact-checking & Verification; Visuals & Design.
+  • The guided chatbot and per-contributor engagement-level flow (Sole / Lead /
+    Equal / Support) are removed in favor of a single-author self-assessment
+    (extent 0/1/2 per stage, with a per-stage "not applicable").
+  • Research-specific copy and the CRediT references are removed.
+  • A new save format (.sifac.json, kind "sifac-statement") and its JSON Schema
+    are introduced.
+  • We have added translations for the interface based on the i18n standard, and
+    that led to opting for not developing an offline version to avoid burdening
+    the file and license with the needed libraries.
+
+
+## Português
+sIFAC — Declaração de Companheirismo Intelectual e Responsabilidade pelo Conteúdo
+Copyright 2026 > Luis Ferreira
+
+Este produto é uma obra derivada da Ferramenta sIfA e é distribuído sob a
+Licença Apache, Versão 2.0.
+
+──────────────────────────────────────────────────────────────────────────
+Trabalho upstream (realizado conforme Apache 2.0, seção 4d)
+────────────────────────────────────────────────────────────────────────────────
+
+O sIFAC foi adaptado de:
+
+Ferramenta sIfA — Declaração de Companheirismo Intelectual e Responsabilidade
+
+Copyright 2026 Mareike Schomerus / Busara
+https://github.com/mareikeschomerus-ctrl/sIfA
+
+Este produto inclui software desenvolvido por Mareike Schomerus na Busara.
+
+A ilustração da figura do cérebro (silhueta, giros e detalhes dos tecidos) é reutilizada
+verbatim da ferramenta sIfA e permanece (c) Mareike Schomerus / Busara.
+
+Nota sobre a taxonomia subjacente: a ferramenta sIfA original baseia-se na Taxonomia de Funções de Contribuidor CRediT (um padrão NISO, https://credit.niso.org). O sIFAC
+NÃO usa o CRediT — ele substitui essa taxonomia por sua própria taxonomia de conteúdo de nove estágios — portanto, a atribuição do CRediT não acompanha o sIFAC.
+
+───────────────────────────────────────────────────────────────────────────
+Alterações feitas no sIFAC (de acordo com o Apache 2.0, seção 4b)
+───────────────────────────────────────────────────────────────────────────
+
+• A taxonomia de pesquisa CRediT de 14 funções é substituída por uma taxonomia de nove estágios
+para conteúdo escrito: Concepção e Ângulo; Pesquisa e Obtenção de Fontes; Estrutura;
+
+Redação; Edição e Aprimoramento; Revisão; Tradução;
+
+Verificação e Checagem de Fatos; Visuais e Design.
+
+• O chatbot guiado e o fluxo de engajamento por colaborador (Único / Principal /
+
+Igual / Apoio) foram removidos em favor de uma autoavaliação de autor único
+(extensão 0/1/2 por etapa, com um "não aplicável" por etapa).
+
+• O texto específico da pesquisa e as referências CRediT foram removidos.
+
+• Um novo formato de salvamento (.sifac.json, tipo "sifac-statement") e seu esquema JSON
+foram introduzidos.
+
+• Adicionamos traduções para a interface com base no padrão i18n,
+o que nos levou a optar por não desenvolver uma versão offline para evitar sobrecarregar
+o arquivo e a licença com as bibliotecas necessárias.
+
+## Castellano
+sIFAC — Declaración de Asociación Intelectual y Responsabilidad por el Contenido
+Copyright 2026 > Luis Ferreira
+
+Este producto es una obra derivada de la herramienta sIfA y se distribuye bajo la Licencia Apache 2.0.
+
+Trabajo original (realizado según la sección 4d de la Licencia Apache 2.0)
+───────────────────────────────────────── ─────────────────────────────────────────
+
+sIFAC se adaptó de:
+
+Herramienta sIfA — Declaración de Colaboración y Responsabilidad Intelectual
+
+Copyright 2026 Mareike Schomerus / Busara
+https://github.com/mareikeschomerus-ctrl/sIfA
+
+Este producto incluye software desarrollado por Mareike Schomerus en Busara.
+
+La ilustración de la figura del cerebro (silueta, circunvoluciones y detalles del tejido) se reutiliza textualmente de la herramienta sIfA y sigue siendo © Mareike Schomerus / Busara.
+
+Nota sobre la taxonomía subyacente: la herramienta sIfA original se basa en la taxonomía de funciones de contribución CRediT (un estándar NISO, https://credit.niso.org). sIFAC
+
+NO utiliza CRediT; reemplaza dicha taxonomía con su propia taxonomía de contenido de nueve niveles. Por lo tanto, sIFAC no incluye la atribución CRediT.
+
+──────────────────────────────────────────────────────────────────────────────
+Cambios realizados en sIFAC (según Apache) 2.0, sección 4b)
+──────────────────────────────────────────────────────────────────────
+
+• La taxonomía de investigación CRediT El marco de 14 funciones se reemplaza por una taxonomía de nueve etapas para el contenido escrito:
+
+Concepción y Enfoque; Investigación y Adquisición de Fuentes; Estructura;
+
+Redacción; Edición y Mejora; Revisión; Traducción;
+
+Verificación y Comprobación de Datos; Elementos Visuales y Diseño.
+
+• El chatbot guiado y el flujo de interacción con colaboradores (Individual/Principal/Igual/Apoyo) se han eliminado en favor de una autoevaluación individual del autor (duración 0/1/2 por etapa, con la opción "no aplicable" en cada etapa).
+
+• Se han eliminado el texto de investigación específico y las referencias CRediT.
+
+• Se ha introducido un nuevo formato de guardado (.sifac.json, tipo "sifac-statement") y su esquema JSON.
+
+• Hemos añadido traducciones a la interfaz basadas en el estándar i18n,
+lo que nos llevó a optar por no desarrollar una versión sin conexión para evitar sobrecargar
+el archivo y la licencia con las bibliotecas necesarias.
