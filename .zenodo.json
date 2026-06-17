@@ -1,0 +1,33 @@
+{
+  "title": "sIATC: Statement of Intellectual Accountability and Transparency for Content",
+  "upload_type": "software",
+  "description": "sIATC is a browser-based self-assessment tool for documenting how AI tools were used in the production of written content. This release provides the HTML artifact and supporting documentation as a citable, archived version. It is derived from the original sIFA submission.",
+  "creators": [
+    {
+      "name": "Ferreira, Luis",
+      "orcid": "https://orcid.org/0009-0001-0916-3944"
+    }
+  ],
+"access_right": "open",
+  "license": "Apache-2.0",
+    "version": "1.2.0",
+  "keywords": [
+    "AI transparency",
+    "AI disclosure",
+    "content production",
+    "authorship",
+    "accountability",
+    "editorial process",
+    "human AI interaction",
+    "self-assessment"
+  ],
+  "related_identifiers": [
+    {
+      "identifier": "https://doi.org/10.5281/zenodo.20285993",
+      "relation": "isDerivedFrom",
+      "resource_type": "software"
+    }
+  ],
+  "language": "eng"
+}
+

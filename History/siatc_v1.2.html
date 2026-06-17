@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>sIFAC — Statement of Intellectual Fellowship and Accountability for Content</title>
+<!--
+  sIFAC \u2014 Statement of Intellectual Fellowship and Accountability for Content
+  A self-assessment of human/AI interaction across the stages of producing written content.
+
+  This file is a MODIFIED DERIVATIVE of:
+    sIfA Tool \u2014 Statement of Intellectual Fellowship and Accountability
+    Copyright 2026 Mareike Schomerus / Busara
+    https://github.com/mareikeschomerus-ctrl/sIfA
+    Licensed under the Apache License, Version 2.0.
+    Obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
+
+  CHANGES FROM THE ORIGINAL (per Apache 2.0 sec. 4b):
+    - The 14-role CRediT research taxonomy is replaced by a 9-stage taxonomy for written content
+      (Conception & Angle; Research & Sourcing; Structure; Drafting; Editing & Refinement;
+       Revision; Translation; Fact-checking & Verification; Visuals & Design).
+    - The guided chatbot and per-contributor engagement-level flow are removed in favour of a
+      single-author self-assessment (extent 0/1/2 per stage, with a per-stage "not applicable").
+    - Research-specific copy and the CRediT references are removed.
+  The brain-figure SVG artwork (silhouette, gyri, tissue rings) is reused verbatim from the
+  original sIfA tool and remains (c) Mareike Schomerus / Busara under Apache 2.0.
+
+  When redistributing, keep this notice, ship a copy of the Apache 2.0 LICENSE, and carry the
+  original NOTICE file alongside your own. sIFAC additions (c) 2026, released under Apache 2.0.
+-->
+<script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
+<style>
+  :root{
+    --bg:#F1F5F9; --panel:#fff; --ink:#1E293B; --muted:#64748B; --line:#E2E8F0;
+    --brain:#DD5510; --ai:#6E55D6; --aiLight:#8C78E0; --aiDark:#3B1D7F;
+    --font:'Montserrat','Segoe UI',-apple-system,Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);line-height:1.45}
+  .wrap{max-width:1180px;margin:0 auto;padding:28px 20px 80px}
+  header.app h1{font-size:25px;font-weight:800;letter-spacing:-0.01em;margin:0}
+  header.app .full{color:var(--muted);font-size:13.5px;margin:3px 0 0}
+  header.app{border-bottom:2px solid var(--ink);padding-bottom:14px}
+  .intro{color:var(--muted);font-size:14px;margin:14px 0 22px;max-width:780px}
+  .grid{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,0.95fr);gap:28px;align-items:start}
+  @media(max-width:880px){.grid{grid-template-columns:1fr}}
+  .meta{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:18px}
+  @media(max-width:520px){.meta{grid-template-columns:1fr}}
+  .field label{display:block;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);margin-bottom:5px}
+  .field input{width:100%;border:1px solid var(--line);border-radius:8px;padding:9px 11px;font-family:var(--font);font-size:14px;background:#fff}
+  .field input:focus{outline:2px solid var(--ai);outline-offset:1px;border-color:var(--ai)}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:13px 16px;margin-bottom:11px;position:relative;overflow:hidden;transition:opacity .15s}
+  .card.na{opacity:.5}
+  .card .bar{position:absolute;left:0;top:0;bottom:0;width:5px}
+  .rhead{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+  .rname{font-size:15px;font-weight:700;margin:0}
+  .rdef{font-size:12.5px;color:var(--muted);margin:2px 0 4px}
+  .ex{font-size:11.5px;color:#94A3B8;margin:0 0 11px}
+  .ex b{color:var(--muted);font-weight:700}
+  .na-toggle{flex:none;border:1px solid var(--line);background:#fff;border-radius:6px;padding:4px 8px;font-size:11px;font-weight:700;color:var(--muted);cursor:pointer;font-family:var(--font)}
+  .na-toggle:hover{border-color:#CBD5E1}
+  .na-toggle:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+  .extent{display:flex;gap:8px;margin-bottom:10px}
+  .extent button{flex:1;border:1.5px solid var(--line);background:#fff;border-radius:8px;padding:7px 6px;cursor:pointer;font-family:var(--font);font-size:12.5px;font-weight:600;color:var(--muted);transition:.12s}
+  .extent button .lvl{display:block;font-size:18px;font-weight:800;line-height:1.1}
+  .extent button:hover{border-color:#CBD5E1}
+  .extent button[aria-pressed="true"]{color:#fff}
+  .extent button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+  .detail{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  @media(max-width:520px){.detail{grid-template-columns:1fr}}
+  .detail input{width:100%;border:1px solid var(--line);border-radius:8px;padding:8px 10px;font-family:var(--font);font-size:13px}
+  .detail input:focus{outline:2px solid var(--ai);outline-offset:1px;border-color:var(--ai)}
+  .detail .lab{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.03em;margin-bottom:4px}
+  .na-msg{font-size:12px;color:var(--muted);font-style:italic}
+  .right{position:sticky;top:18px}
+  .figbox{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:10px}
+  .figbox svg{width:100%;height:auto;display:block}
+  .legend{display:flex;justify-content:center;gap:18px;font-size:13px;font-weight:600;margin:8px 0 2px;color:var(--ink)}
+  .legend .sw{display:inline-block;width:14px;height:11px;border-radius:2px;margin-right:6px;vertical-align:middle}
+  .caption{text-align:center;color:var(--muted);font-size:12.5px;margin:4px 4px 2px}
+  .stmt{font-style:italic;color:#475569;font-size:11.5px;text-align:center;margin:10px 14px 0;line-height:1.5}
+  table.tbl{width:100%;border-collapse:collapse;margin-top:18px;font-size:12.5px;background:var(--panel);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+  table.tbl th{background:#111827;color:#fff;text-align:left;padding:8px 10px;font-size:11px;text-transform:uppercase;letter-spacing:.03em}
+  table.tbl td{padding:8px 10px;border-top:1px solid var(--line);vertical-align:top}
+  table.tbl tr.skip td{color:#94A3B8}
+  table.tbl td .sq{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:3px;vertical-align:middle}
+  .rolecell{font-weight:700}
+  .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+  .actions button{flex:1;min-width:120px;border:none;border-radius:9px;padding:11px 12px;cursor:pointer;font-family:var(--font);font-weight:700;font-size:13px;background:var(--ink);color:#fff}
+  .actions button.ghost{background:#fff;color:var(--ink);border:1.5px solid var(--line)}
+  .actions button:focus-visible{outline:2px solid var(--ai);outline-offset:2px}
+  footer.app{margin-top:34px;border-top:1px solid var(--line);padding-top:14px;color:var(--muted);font-size:11.5px;line-height:1.6;max-width:920px}
+  footer.app a{color:#2451CB}
+  @media (prefers-reduced-motion: reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>window.BRAIN_ART = {"brain": "M314.0,116.2 L316.9,117.3 L319.8,118.6 L322.6,119.9 L325.4,121.3 L328.1,122.7 L330.8,124.1 L333.5,125.5 L336.1,126.9 L338.7,128.5 L341.2,130.2 L343.7,132.1 L346.0,134.2 L348.3,136.5 L350.4,139.0 L352.5,141.6 L354.5,144.2 L356.5,146.7 L358.4,149.1 L360.4,151.2 L362.5,152.7 L364.9,153.5 L367.2,154.3 L369.5,155.1 L371.8,156.0 L374.1,157.0 L376.4,157.9 L378.6,158.9 L380.8,159.9 L383.1,161.0 L385.3,162.1 L387.5,163.2 L389.6,164.4 L391.8,165.6 L393.9,166.9 L396.0,168.1 L398.1,169.4 L400.2,170.8 L402.2,172.1 L404.3,173.6 L406.3,175.0 L408.3,176.4 L410.6,177.4 L415.3,175.6 L420.2,173.6 L425.3,171.7 L430.4,170.0 L435.3,168.7 L440.0,167.8 L444.3,167.5 L448.2,167.8 L451.5,168.7 L454.4,170.2 L456.8,172.1 L458.8,174.4 L460.4,177.0 L461.7,179.8 L462.8,182.8 L463.7,185.9 L464.5,189.0 L465.2,192.2 L465.8,195.3 L466.2,198.6 L466.5,201.8 L466.7,205.1 L466.6,208.5 L466.4,211.8 L466.1,215.2 L465.7,218.6 L465.3,221.9 L465.0,225.1 L464.9,228.1 L465.2,230.9 L465.9,233.4 L467.0,235.8 L468.7,237.9 L470.9,239.9 L473.6,241.7 L476.6,243.5 L479.9,245.2 L483.3,247.0 L486.6,248.9 L489.6,251.0 L492.4,253.2 L494.6,255.6 L496.4,258.2 L497.7,260.9 L498.5,263.8 L499.0,266.7 L499.3,269.7 L499.6,272.6 L500.0,275.5 L500.6,278.4 L501.6,281.3 L503.1,284.1 L505.0,287.0 L507.4,289.8 L510.1,292.8 L513.0,295.7 L516.0,298.8 L518.9,302.0 L521.5,305.3 L523.7,308.6 L525.3,312.0 L526.2,315.4 L526.5,318.7 L526.1,322.0 L525.1,325.3 L523.5,328.5 L521.4,331.5 L518.9,334.5 L516.1,337.3 L513.1,340.0 L510.0,342.6 L506.7,345.1 L503.2,347.4 L499.6,349.6 L495.8,351.7 L491.8,353.7 L487.6,355.4 L483.3,357.0 L478.9,358.5 L474.5,359.8 L470.2,361.0 L466.0,362.2 L462.2,363.4 L458.9,364.7 L457.1,366.6 L456.1,368.8 L455.0,371.1 L453.9,373.3 L452.8,375.5 L453.2,378.5 L454.3,382.1 L455.7,385.8 L457.2,389.8 L458.6,393.7 L459.7,397.7 L460.3,401.5 L460.5,405.0 L460.2,408.2 L459.3,411.1 L458.0,413.7 L456.2,416.0 L454.2,418.0 L452.0,419.9 L449.8,421.7 L447.6,423.5 L445.5,425.5 L443.7,427.6 L442.0,430.0 L440.5,432.5 L439.1,435.2 L437.8,438.0 L436.4,440.8 L435.0,443.6 L433.4,446.3 L431.5,448.7 L429.5,450.9 L427.2,452.7 L424.6,454.2 L421.9,455.5 L419.0,456.4 L416.0,457.2 L412.9,457.8 L409.8,458.4 L406.8,458.9 L403.7,459.3 L400.7,459.8 L397.7,460.1 L394.7,460.4 L391.6,460.5 L388.5,460.4 L385.4,460.1 L382.1,459.5 L378.9,458.6 L375.6,457.5 L372.3,456.2 L369.1,455.0 L366.0,453.9 L363.1,453.1 L360.4,452.7 L357.9,452.9 L355.6,453.9 L353.4,455.6 L351.5,458.1 L349.6,461.4 L347.8,465.3 L346.0,469.8 L344.1,474.5 L342.1,479.3 L339.9,483.9 L337.5,488.2 L335.0,491.9 L332.2,494.9 L329.4,497.2 L326.4,498.6 L323.3,499.3 L320.2,499.2 L317.1,498.5 L314.0,497.3 L311.0,495.8 L308.0,494.0 L305.0,492.1 L302.2,490.2 L299.3,488.2 L296.6,486.3 L293.9,484.2 L291.2,482.1 L288.7,479.8 L286.2,477.4 L283.9,474.6 L281.6,471.7 L279.5,468.5 L277.6,465.1 L275.7,461.5 L274.0,457.9 L272.3,454.3 L270.2,452.8 L267.8,452.1 L265.5,451.3 L263.1,450.5 L260.8,449.7 L258.5,448.9 L256.2,448.0 L253.9,447.0 L251.6,446.1 L249.4,445.1 L247.2,444.1 L244.9,443.0 L242.7,441.9 L240.5,440.8 L238.4,439.6 L236.2,438.4 L234.1,437.1 L232.0,435.9 L229.9,434.6 L227.8,433.2 L225.8,431.9 L223.7,430.4 L221.7,429.0 L219.7,427.6 L217.8,426.1 L215.8,424.5 L213.9,423.0 L212.0,421.4 L210.2,419.8 L207.8,418.8 L202.7,420.5 L198.0,421.7 L193.7,422.3 L189.8,422.3 L186.4,421.8 L183.5,420.8 L180.9,419.3 L178.7,417.5 L176.9,415.5 L175.2,413.2 L173.8,410.8 L172.5,408.3 L171.3,405.6 L170.4,403.0 L169.5,400.2 L168.9,397.3 L168.5,394.3 L168.3,391.3 L168.4,388.1 L168.6,384.9 L169.0,381.7 L169.3,378.6 L169.7,375.5 L169.8,372.6 L169.7,369.9 L169.2,367.4 L168.2,365.1 L166.7,363.0 L164.8,361.1 L162.4,359.3 L159.6,357.6 L156.6,355.9 L153.5,354.1 L150.6,352.3 L147.8,350.3 L145.4,348.1 L143.4,345.8 L142.0,343.3 L141.0,340.7 L140.4,337.9 L140.2,335.2 L140.2,332.3 L140.2,329.5 L140.0,326.8 L139.6,324.0 L138.7,321.3 L137.5,318.7 L135.7,316.0 L133.4,313.4 L130.8,310.6 L127.9,307.8 L125.0,305.0 L122.1,302.0 L119.5,298.9 L117.3,295.8 L115.6,292.6 L114.6,289.5 L114.2,286.3 L114.5,283.1 L115.3,280.1 L116.8,277.1 L118.6,274.2 L120.9,271.4 L123.4,268.7 L126.2,266.2 L129.1,263.7 L132.1,261.3 L135.3,259.1 L138.6,257.0 L142.1,255.0 L145.7,253.1 L149.6,251.4 L153.6,249.9 L157.7,248.5 L161.8,247.2 L165.8,246.0 L168.0,244.2 L169.0,241.9 L169.9,239.6 L170.9,237.4 L171.9,235.2 L173.0,232.9 L174.1,230.7 L175.2,228.5 L176.4,226.4 L177.6,224.2 L177.5,221.3 L175.8,217.3 L174.3,213.4 L173.1,209.5 L172.3,205.7 L172.0,202.2 L172.3,199.1 L173.1,196.2 L174.4,193.7 L176.2,191.6 L178.2,189.7 L180.4,187.9 L182.7,186.2 L184.9,184.5 L187.0,182.7 L188.9,180.8 L190.7,178.7 L192.3,176.4 L193.7,173.9 L195.1,171.4 L196.6,168.8 L198.1,166.3 L199.8,164.0 L201.7,161.9 L203.9,160.0 L206.3,158.5 L208.9,157.3 L211.7,156.5 L214.7,155.8 L217.7,155.4 L220.8,155.2 L223.9,155.0 L227.0,154.8 L230.0,154.7 L233.0,154.7 L236.0,154.6 L238.9,154.7 L241.9,154.9 L245.0,155.3 L248.0,155.9 L251.2,156.8 L253.9,157.0 L256.2,156.0 L258.5,155.1 L260.8,154.3 L263.1,153.5 L265.5,152.7 L267.8,151.9 L270.2,151.2 L272.6,150.6 L275.0,149.9 L277.3,149.3 L279.8,148.8 L282.2,148.3 L284.5,147.4 L286.2,142.6 L288.0,137.6 L289.9,132.7 L292.0,128.2 L294.4,124.2 L296.9,120.9 L299.5,118.4 L302.3,116.6 L305.2,115.6 L308.1,115.2 L311.1,115.5 L314.0,116.2 Z", "gyri": ["M 172 350 C 218 330 288 316 365 318 C 428 320 468 334 492 352", "M 258 148 C 260 190 258 238 252 278 C 248 305 244 325 240 348", "M 298 212 C 340 208 390 212 432 224 C 462 234 480 248 490 265", "M 170 412 C 218 392 292 380 366 382 C 428 384 466 396 488 412", "M 428 162 C 452 198 466 238 468 278 C 470 312 462 342 452 368"], "wobble": ["M341.9,310.0 L342.2,311.7 L342.1,313.4 L341.5,315.0 L340.6,316.5 L339.4,317.9 L338.0,319.1 L336.5,320.2 L335.2,321.2 L333.9,322.2 L332.9,323.2 L332.2,324.4 L331.6,325.7 L331.3,327.2 L331.1,329.0 L330.9,330.9 L330.6,332.9 L330.2,334.9 L329.5,336.8 L328.5,338.5 L327.3,340.0 L325.8,341.0 L324.1,341.7 L322.3,341.9 L320.3,341.8 L318.4,341.3 L316.5,340.6 L314.7,339.8 L313.0,338.9 L311.5,338.0 L310.0,337.2 L308.6,336.5 L307.3,335.9 L306.0,335.4 L304.7,335.0 L303.4,334.7 L302.1,334.4 L300.7,334.2 L299.4,333.9 L298.0,333.6 L296.6,333.3 L295.1,333.0 L293.6,332.6 L292.0,332.2 L290.4,331.8 L288.7,331.3 L287.0,330.8 L285.3,330.0 L283.6,329.2 L282.2,328.1 L280.9,326.8 L279.9,325.3 L279.2,323.7 L278.9,321.9 L279.0,320.1 L279.3,318.2 L279.9,316.4 L280.6,314.7 L281.4,313.0 L282.2,311.5 L282.7,310.0 L283.1,308.6 L283.2,307.2 L283.0,305.7 L282.7,304.2 L282.2,302.6 L281.7,300.8 L281.3,299.0 L281.1,297.1 L281.2,295.3 L281.6,293.6 L282.5,292.1 L283.7,290.9 L285.3,290.0 L287.1,289.4 L289.0,289.0 L291.0,288.9 L292.9,288.9 L294.7,288.9 L296.3,288.9 L297.7,288.7 L298.9,288.3 L300.0,287.6 L301.0,286.7 L302.0,285.5 L303.1,284.2 L304.2,282.7 L305.5,281.3 L306.8,280.0 L308.4,278.9 L310.0,278.0 L311.7,277.4 L313.5,277.0 L315.2,276.9 L317.0,277.1 L318.7,277.5 L320.4,278.1 L321.9,278.9 L323.4,279.8 L324.9,280.8 L326.2,282.0 L327.3,283.3 L328.4,284.7 L329.3,286.2 L330.0,287.8 L330.5,289.5 L330.9,291.1 L331.3,292.8 L331.5,294.4 L331.8,295.8 L332.2,297.2 L332.6,298.5 L333.3,299.6 L334.2,300.7 L335.3,301.8 L336.5,302.9 L337.8,304.1 L339.1,305.4 L340.3,306.8 L341.3,308.4 Z", "M368.2,310.0 L367.1,313.0 L365.9,315.9 L364.5,318.6 L363.2,321.3 L361.9,323.9 L360.8,326.5 L360.0,329.2 L359.3,331.9 L358.8,334.9 L358.4,337.9 L358.1,341.2 L357.6,344.6 L357.0,348.1 L356.1,351.5 L354.8,354.8 L353.1,357.9 L350.9,360.5 L348.3,362.7 L345.4,364.5 L342.2,365.7 L338.8,366.5 L335.3,366.8 L331.8,366.9 L328.4,366.7 L325.1,366.5 L322.0,366.3 L318.9,366.3 L315.9,366.3 L313.0,366.5 L310.0,366.9 L307.0,367.3 L303.9,367.6 L300.8,367.8 L297.7,367.9 L294.6,367.6 L291.5,367.1 L288.4,366.2 L285.5,365.0 L282.7,363.5 L280.1,361.7 L277.7,359.8 L275.3,357.7 L273.1,355.5 L271.0,353.3 L269.0,351.0 L267.1,348.6 L265.3,346.2 L263.5,343.8 L261.9,341.3 L260.4,338.7 L259.0,336.0 L257.7,333.3 L256.5,330.5 L255.5,327.7 L254.5,324.9 L253.6,322.0 L252.6,319.1 L251.7,316.1 L250.7,313.1 L249.8,310.0 L248.9,306.8 L248.1,303.5 L247.6,300.1 L247.4,296.7 L247.6,293.3 L248.2,289.9 L249.4,286.7 L251.1,283.8 L253.3,281.1 L255.9,278.7 L258.8,276.7 L261.9,275.0 L265.0,273.6 L268.1,272.3 L271.1,271.1 L273.9,269.9 L276.4,268.5 L278.7,267.0 L280.9,265.2 L283.0,263.2 L285.0,261.0 L287.1,258.7 L289.4,256.3 L291.8,254.1 L294.5,252.2 L297.4,250.5 L300.4,249.3 L303.5,248.6 L306.8,248.3 L310.0,248.5 L313.2,249.0 L316.3,249.9 L319.4,250.9 L322.3,252.1 L325.2,253.3 L328.0,254.5 L330.9,255.7 L333.7,256.8 L336.5,258.0 L339.3,259.2 L342.1,260.5 L344.9,261.9 L347.6,263.5 L350.3,265.3 L352.7,267.3 L355.1,269.4 L357.3,271.7 L359.3,274.2 L361.2,276.8 L362.9,279.5 L364.5,282.3 L365.9,285.1 L367.1,288.1 L368.1,291.1 L368.9,294.2 L369.4,297.4 L369.6,300.6 L369.4,303.8 L368.9,306.9 Z", "M396.7,310.0 L396.2,314.5 L395.5,319.0 L394.8,323.4 L394.0,327.9 L393.2,332.3 L392.3,336.7 L391.3,341.2 L390.2,345.7 L388.9,350.2 L387.3,354.6 L385.4,359.0 L383.1,363.1 L380.5,367.1 L377.4,370.7 L373.9,373.9 L370.1,376.8 L366.1,379.3 L361.9,381.4 L357.6,383.3 L353.3,384.9 L349.0,386.5 L344.8,388.1 L340.6,389.7 L336.5,391.5 L332.3,393.4 L328.2,395.4 L323.9,397.5 L319.4,399.4 L314.8,401.2 L310.0,402.6 L305.1,403.5 L300.1,403.9 L295.2,403.6 L290.3,402.6 L285.6,401.0 L281.1,398.8 L276.9,396.1 L273.0,393.1 L269.4,389.8 L265.9,386.3 L262.7,382.9 L259.6,379.4 L256.5,376.1 L253.5,372.8 L250.4,369.6 L247.4,366.4 L244.4,363.1 L241.4,359.9 L238.5,356.5 L235.7,352.9 L233.0,349.2 L230.6,345.4 L228.3,341.4 L226.3,337.2 L224.5,332.9 L222.9,328.5 L221.6,324.0 L220.5,319.4 L219.6,314.7 L219.1,310.0 L218.8,305.2 L218.9,300.4 L219.4,295.6 L220.3,290.9 L221.6,286.3 L223.4,281.9 L225.5,277.6 L227.9,273.5 L230.6,269.6 L233.5,265.8 L236.5,262.2 L239.5,258.8 L242.4,255.3 L245.4,251.8 L248.3,248.3 L251.3,244.8 L254.3,241.3 L257.5,237.7 L260.9,234.3 L264.5,231.1 L268.3,228.3 L272.5,225.8 L277.0,223.9 L281.6,222.6 L286.4,221.9 L291.2,221.7 L296.1,222.0 L300.8,222.8 L305.5,223.8 L310.0,225.0 L314.4,226.2 L318.7,227.2 L323.0,228.2 L327.2,228.9 L331.6,229.5 L336.0,229.9 L340.6,230.3 L345.2,230.8 L350.0,231.5 L354.7,232.5 L359.4,233.9 L363.9,235.8 L368.3,238.0 L372.3,240.8 L376.0,244.0 L379.4,247.5 L382.4,251.4 L385.1,255.5 L387.4,259.7 L389.5,264.1 L391.3,268.6 L392.8,273.1 L394.1,277.7 L395.2,282.3 L396.0,286.9 L396.6,291.6 L397.0,296.2 L397.1,300.8 L397.0,305.4 Z", "M431.5,310.0 L431.3,316.4 L430.7,322.7 L429.7,329.0 L428.2,335.1 L426.4,341.2 L424.2,347.1 L421.8,352.9 L418.9,358.5 L415.8,363.9 L412.3,369.1 L408.6,374.0 L404.5,378.7 L400.2,383.0 L395.7,387.1 L391.0,391.0 L386.2,394.7 L381.4,398.2 L376.6,401.6 L371.7,405.0 L366.8,408.4 L361.9,411.8 L356.9,415.3 L351.7,418.7 L346.4,422.1 L340.9,425.3 L335.1,428.1 L329.1,430.5 L322.9,432.4 L316.5,433.6 L310.0,434.0 L303.5,433.7 L297.1,432.7 L290.8,430.9 L284.8,428.7 L278.9,426.0 L273.3,423.0 L267.9,419.8 L262.6,416.5 L257.4,413.3 L252.2,410.1 L247.0,407.0 L241.8,403.8 L236.6,400.6 L231.5,397.2 L226.4,393.6 L221.6,389.6 L217.0,385.3 L212.7,380.7 L208.9,375.6 L205.6,370.3 L202.8,364.6 L200.5,358.7 L198.7,352.7 L197.4,346.6 L196.3,340.5 L195.6,334.3 L195.1,328.2 L194.8,322.1 L194.7,316.0 L194.7,310.0 L194.8,304.0 L195.2,297.9 L195.8,291.9 L196.6,285.9 L197.7,279.9 L199.0,273.9 L200.7,268.0 L202.6,262.2 L204.8,256.4 L207.3,250.7 L210.0,245.0 L212.9,239.5 L216.2,234.0 L219.7,228.7 L223.6,223.6 L227.8,218.7 L232.4,214.2 L237.4,210.0 L242.7,206.4 L248.4,203.3 L254.4,200.8 L260.6,199.0 L266.9,197.7 L273.2,196.9 L279.6,196.5 L285.9,196.5 L292.0,196.7 L298.1,196.9 L304.1,197.1 L310.0,197.2 L315.9,197.2 L321.9,197.2 L327.9,197.1 L334.0,197.0 L340.2,197.2 L346.5,197.8 L352.7,198.7 L358.9,200.2 L364.9,202.3 L370.6,205.1 L376.0,208.4 L381.0,212.2 L385.7,216.6 L389.9,221.2 L393.9,226.1 L397.5,231.2 L401.0,236.3 L404.3,241.5 L407.5,246.7 L410.7,251.9 L413.8,257.1 L416.9,262.4 L419.8,267.8 L422.6,273.4 L425.1,279.2 L427.2,285.1 L429.0,291.2 L430.3,297.4 L431.1,303.7 Z", "M462.1,310.0 L461.2,317.9 L459.7,325.7 L457.9,333.4 L455.8,341.0 L453.3,348.4 L450.6,355.7 L447.7,362.9 L444.5,369.9 L441.0,376.7 L437.2,383.4 L433.1,389.9 L428.6,396.2 L423.9,402.2 L418.9,408.0 L413.5,413.5 L408.0,418.8 L402.2,423.9 L396.2,428.7 L390.0,433.3 L383.6,437.6 L377.0,441.6 L370.2,445.3 L363.2,448.6 L356.0,451.5 L348.5,453.8 L341.0,455.6 L333.3,456.8 L325.5,457.5 L317.7,457.5 L310.0,457.0 L302.3,456.1 L294.8,454.8 L287.3,453.3 L279.9,451.5 L272.6,449.7 L265.2,447.8 L257.8,445.9 L250.4,443.8 L243.0,441.6 L235.5,439.1 L228.1,436.2 L220.8,432.8 L213.7,428.9 L207.1,424.3 L200.9,419.1 L195.3,413.3 L190.4,406.9 L186.1,400.0 L182.5,392.8 L179.6,385.3 L177.2,377.6 L175.3,370.0 L173.7,362.3 L172.4,354.7 L171.1,347.2 L170.0,339.8 L168.9,332.4 L167.8,324.9 L166.9,317.5 L166.1,310.0 L165.6,302.4 L165.4,294.8 L165.6,287.1 L166.2,279.4 L167.4,271.8 L169.1,264.2 L171.3,256.8 L174.1,249.5 L177.2,242.4 L180.8,235.4 L184.8,228.7 L189.2,222.2 L193.8,215.9 L198.9,209.9 L204.2,204.2 L209.9,198.9 L215.9,193.8 L222.2,189.2 L228.8,185.0 L235.6,181.2 L242.7,177.8 L249.8,174.9 L257.1,172.3 L264.5,170.0 L271.9,167.9 L279.4,166.1 L287.0,164.5 L294.6,163.1 L302.2,161.9 L310.0,161.0 L317.8,160.5 L325.7,160.4 L333.6,160.9 L341.5,162.0 L349.2,163.8 L356.7,166.3 L363.9,169.5 L370.8,173.4 L377.3,177.8 L383.5,182.7 L389.3,187.9 L394.8,193.4 L400.0,198.8 L405.1,204.4 L410.2,209.8 L415.3,215.2 L420.4,220.6 L425.6,226.0 L430.8,231.6 L436.0,237.3 L441.0,243.3 L445.7,249.6 L450.1,256.2 L453.9,263.3 L457.0,270.6 L459.5,278.2 L461.2,286.0 L462.2,294.0 L462.5,302.0 Z"]};</script>
+<script type="text/babel" data-presets="react">
+const { useState, useMemo, useEffect } = React;
+const ART = window.BRAIN_ART;
+
+const BRAND = { name: "sIFAC" };
+
+// Structural role metadata, stable across languages: id + accent colour.
+// All user-facing role text (lines/short/def/ex) lives in STRINGS[lang].roles, keyed by id.
+const ROLE_META = [
+  { id:"conception",  accent:"#E11D48" },
+  { id:"research",    accent:"#2563EB" },
+  { id:"structure",   accent:"#B45309" },
+  { id:"drafting",    accent:"#0F766E" },
+  { id:"editing",     accent:"#7C3AED" },
+  { id:"revision",    accent:"#4338CA" },
+  { id:"translation", accent:"#0E7490" },
+  { id:"verification",accent:"#047857" },
+  { id:"visuals",     accent:"#A21CAF" },
+];
+
+// ---- Internationalisation (no external library). Switch with the EN/PT/ES toggle. ----
+const STRINGS = {
+  en: {
+    label: "EN",
+    htmlLang: "en",
+    full: "Statement of Intellectual Fellowship and Accountability for Content",
+    intro: 'For each stage of producing the piece, rate how much you worked with AI: 0 = none, 1 = some, 2 = extensive. Mark a stage <b>not applicable</b> if it never happened (say, no translation). The figure fills outward from the centre as AI involvement grows — the orange brain is the human, the purple core is the AI. You remain accountable for the result.',
+    pieceLabel: "Piece", piecePh: "e.g. Launch announcement, Aug 2026",
+    byLabel: "By", byPh: "Your name (optional)",
+    naInclude: "Include", naExclude: "Not applicable",
+    naMsg: "Not applicable — excluded from the figure.",
+    egLabel: "e.g.",
+    toolLabel: "Tool / service", toolPh: "e.g. Claude, ChatGPT, DeepL",
+    noteLabel: "How was AI used?", notePh: "short note",
+    extentLabels: ["None","Some","Extensive"],
+    extentAria: "Extent of AI use for ",
+    thStage: "Stage", thExtent: "Extent", thHow: "How / tool",
+    na: "n/a", dash: "—",
+    legendOuter: "Outer = Human", legendCentre: "Centre = AI",
+    statement: "After using any tools or services, the author(s) reviewed and edited the content as needed and take(s) full responsibility for the content of the publication.",
+    btnSVG: "Download figure (SVG)", btnPNG: "Download figure (PNG)", btnJSON: "Export data (.sifac.json)",
+    sumAllNA: "All stages marked not applicable",
+    sumNoAI: n => "No AI use recorded · 0 of " + n + " stages",
+    sumSome: (used, total, avg) => used + " of " + total + " stages with AI · average extent " + avg + "/2",
+    expScale: "Extent of AI use · 0 = none · 1 = some · 2 = extensive",
+    expAxis: "Each axis = one content stage",
+    expBasedOn: "Based on the sIfA Tool (Schomerus / Busara), Apache 2.0 · github.com/mareikeschomerus-ctrl/sIfA",
+    footer: '<b>sIFAC</b> is adapted from the <b>sIfA Tool — Statement of Intellectual Fellowship and Accountability</b>, © 2026 Mareike Schomerus / Busara, released under the Apache License 2.0 (<a href="http://www.apache.org/licenses/LICENSE-2.0">apache.org/licenses/LICENSE-2.0</a>). Source: <a href="https://github.com/mareikeschomerus-ctrl/sIfA">github.com/mareikeschomerus-ctrl/sIfA</a>. Modified: the CRediT research taxonomy is replaced with a nine-stage content taxonomy (Conception & Angle; Research & Sourcing; Structure; Drafting; Editing & Refinement; Revision; Translation; Fact-checking & Verification; Visuals & Design), and the contributor-level flow is simplified to a single-author self-assessment with a per-stage "not applicable". The brain-figure artwork is reused under the same licence. sIFAC additions © 2026, released under Apache 2.0. When you redistribute this file, keep this notice and ship a copy of the Apache 2.0 LICENSE and the original NOTICE file.',
+    roles: {
+      conception:  { lines:["Conception","& Angle"],            short:"Conception & Angle",            def:"The core idea, angle and message — what the piece is about and why it is worth making.", ex:"brainstorming angles or hooks; pressure-testing an argument; generating framing options; sharpening the takeaway" },
+      research:    { lines:["Research","& Sourcing"],            short:"Research & Sourcing",            def:"The facts, references and examples the piece rests on.", ex:"summarising background reading; finding supporting data or quotes; pulling together prior material; mapping what has been said" },
+      structure:   { lines:["Structure"],                        short:"Structure",                     def:"Outline, sequence and narrative flow.", ex:"drafting or reordering an outline; proposing a narrative arc; testing whether the flow lands; adapting structure to a format" },
+      drafting:    { lines:["Drafting"],                         short:"Drafting",                      def:"Producing the original text — turning idea and outline into prose.", ex:"generating a first draft from a brief; drafting sections; expanding notes into prose; producing alternative phrasings" },
+      editing:     { lines:["Editing","& Refinement"],           short:"Editing & Refinement",          def:"Line-level craft: language, tone, clarity, concision and voice.", ex:"copy-editing for clarity; matching a brand voice; rewriting clunky passages; cutting to length" },
+      revision:    { lines:["Revision"],                         short:"Revision",                      def:"Substantive reworking of content and argument in response to feedback or a fresh read — not just wording.", ex:"incorporating reviewer comments; reworking an argument that did not land; reconciling conflicting feedback; deciding what to cut or expand" },
+      translation: { lines:["Translation"],                      short:"Translation",                   def:"Rendering the piece into another language, including localising references and keeping terminology consistent.", ex:"refining a machine translation; adapting idioms and cultural references; applying a glossary; back-translation to check fidelity" },
+      verification:{ lines:["Fact-checking","& Verification"],   short:"Fact-checking & Verification",  def:"Confirming claims, quotes, figures and sources are accurate — including catching anything the AI invented, across source and translation.", ex:"verifying AI-suggested facts against sources; flagging possible hallucinations; cross-checking attributions; reviewing for bias" },
+      visuals:     { lines:["Visuals","& Design"],               short:"Visuals & Design",              def:"The visual layer: images, layout and design that present the words.", ex:"generating or sourcing images; drafting layouts; creating charts or diagrams from the content; adapting visuals to a format" },
+    }
+  },
+
+  pt: {
+    label: "PT",
+    htmlLang: "pt-BR",
+    full: "Declaração de Parceria Intelectual e Responsabilidade pelo Conteúdo",
+    intro: 'Para cada etapa da produção do conteúdo, avalie o quanto você trabalhou com IA: 0 = nada, 1 = um pouco, 2 = bastante. Marque uma etapa como <b>não se aplica</b> se ela nunca aconteceu (por exemplo, se não houve tradução). A figura se preenche do centro para fora à medida que a participação da IA aumenta — o cérebro laranja é o humano; o núcleo roxo é a IA. A responsabilidade pelo resultado continua sendo sua.',
+    pieceLabel: "Peça", piecePh: "ex.: Anúncio de lançamento, ago. 2026",
+    byLabel: "Autoria", byPh: "Seu nome (opcional)",
+    naInclude: "Incluir", naExclude: "Não se aplica",
+    naMsg: "Não se aplica — fora da figura.",
+    egLabel: "ex.:",
+    toolLabel: "Ferramenta / serviço", toolPh: "ex.: Claude, ChatGPT, DeepL",
+    noteLabel: "Como a IA foi usada?", notePh: "nota breve",
+    extentLabels: ["Nada","Um pouco","Bastante"],
+    extentAria: "Grau de uso de IA em ",
+    thStage: "Etapa", thExtent: "Grau", thHow: "Como / ferramenta",
+    na: "n/d", dash: "—",
+    legendOuter: "Externo = Humano", legendCentre: "Centro = IA",
+    statement: "Após usar quaisquer ferramentas ou serviços, a autoria revisou e editou o conteúdo conforme necessário e assume total responsabilidade pelo conteúdo da publicação.",
+    btnSVG: "Baixar figura (SVG)", btnPNG: "Baixar figura (PNG)", btnJSON: "Exportar dados (.sifac.json)",
+    sumAllNA: "Todas as etapas marcadas como não se aplica",
+    sumNoAI: n => "Nenhum uso de IA registrado · 0 de " + n + " etapas",
+    sumSome: (used, total, avg) => used + " de " + total + " etapas com IA · grau médio " + avg + "/2",
+    expScale: "Grau de uso de IA · 0 = nada · 1 = um pouco · 2 = bastante",
+    expAxis: "Cada eixo = uma etapa do conteúdo",
+    expBasedOn: "Baseado na sIfA Tool (Schomerus / Busara), Apache 2.0 · github.com/mareikeschomerus-ctrl/sIfA",
+    footer: 'O <b>sIFAC</b> é uma adaptação da <b>sIfA Tool — Statement of Intellectual Fellowship and Accountability</b>, © 2026 Mareike Schomerus / Busara, distribuída sob a Licença Apache 2.0 (<a href="http://www.apache.org/licenses/LICENSE-2.0">apache.org/licenses/LICENSE-2.0</a>). Fonte: <a href="https://github.com/mareikeschomerus-ctrl/sIfA">github.com/mareikeschomerus-ctrl/sIfA</a>. Modificações: a taxonomia de pesquisa CRediT foi substituída por uma taxonomia de conteúdo em nove etapas (Concepção e Ângulo; Pesquisa e Fontes; Estrutura; Redação; Edição e Refinamento; Revisão; Tradução; Checagem e Verificação; Imagens e Design) e o fluxo por colaborador foi simplificado para uma autoavaliação de autor único, com um “não se aplica” por etapa. A arte da figura do cérebro é reutilizada sob a mesma licença. Acréscimos do sIFAC © 2026, distribuídos sob a Apache 2.0. Ao redistribuir este arquivo, mantenha este aviso e inclua uma cópia da LICENSE da Apache 2.0 e o arquivo NOTICE original.',
+    roles: {
+      conception:  { lines:["Concepção","e Ângulo"],          short:"Concepção e Ângulo",          def:"A ideia central, o ângulo e a mensagem — sobre o que é o conteúdo e por que vale a pena produzi-lo.", ex:"explorar ângulos ou ganchos; testar a solidez de um argumento; gerar opções de enquadramento; afinar a mensagem principal" },
+      research:    { lines:["Pesquisa","e Fontes"],               short:"Pesquisa e Fontes",             def:"Os fatos, referências e exemplos em que o conteúdo se apoia.", ex:"resumir leituras de base; encontrar dados ou citações de apoio; reunir material já existente; mapear o que já foi dito" },
+      structure:   { lines:["Estrutura"],                         short:"Estrutura",                     def:"Roteiro, sequência e fluxo narrativo.", ex:"esboçar ou reordenar um roteiro; propor um arco narrativo; testar se o fluxo funciona; adaptar a estrutura a um formato" },
+      drafting:    { lines:["Redação"],                       short:"Redação",                      def:"Produzir o texto original — transformar ideia e roteiro em prosa.", ex:"gerar um primeiro rascunho a partir de um briefing; redigir seções; expandir notas em prosa; produzir formulações alternativas" },
+      editing:     { lines:["Edição","e Refinamento"],         short:"Edição e Refinamento",         def:"Trabalho no nível da frase: linguagem, tom, clareza, concisão e voz.", ex:"revisar o texto para dar clareza; ajustar à voz da marca; reescrever trechos truncados; enxugar para o tamanho certo" },
+      revision:    { lines:["Revisão"],                        short:"Revisão",                      def:"Reformulação substantiva do conteúdo e do argumento em resposta a feedback ou a uma nova leitura — não apenas das palavras.", ex:"incorporar comentários de quem revisou; reformular um argumento que não funcionou; conciliar feedbacks conflitantes; decidir o que cortar ou expandir" },
+      translation: { lines:["Tradução"],                      short:"Tradução",                     def:"Verter o conteúdo para outro idioma, incluindo localizar referências e manter a terminologia consistente.", ex:"refinar uma tradução automática; adaptar expressões idiomáticas e referências culturais; aplicar um glossário; retrotradução para conferir a fidelidade" },
+      verification:{ lines:["Checagem","e Verificação"],       short:"Checagem e Verificação",      def:"Confirmar que afirmações, citações, números e fontes estão corretos — inclusive detectar o que a IA inventou, tanto no original quanto na tradução.", ex:"verificar contra as fontes os fatos sugeridos pela IA; sinalizar possíveis alucinações; conferir atribuições; revisar em busca de vieses" },
+      visuals:     { lines:["Imagens","e Design"],                short:"Imagens e Design",              def:"A camada visual: imagens, diagramação e design que apresentam as palavras.", ex:"gerar ou buscar imagens; esboçar diagramações; criar gráficos ou diagramas a partir do conteúdo; adaptar os visuais a um formato" },
+    }
+  },
+
+  es: {
+    label: "ES",
+    htmlLang: "es",
+    full: "Declaración de Compañerismo Intelectual y Responsabilidad por el Contenido",
+    intro: 'Para cada etapa de la producción de la pieza, valora cuánto trabajaste con IA: 0 = nada, 1 = algo, 2 = bastante. Marca una etapa como <b>no aplica</b> si nunca ocurrió (por ejemplo, si no hubo traducción). La figura se llena del centro hacia afuera a medida que aumenta la participación de la IA — el cerebro naranja es el humano; el núcleo morado es la IA. La responsabilidad por el resultado sigue siendo tuya.',
+    pieceLabel: "Pieza", piecePh: "p. ej., Anuncio de lanzamiento, ago. 2026",
+    byLabel: "Autoría", byPh: "Tu nombre (opcional)",
+    naInclude: "Incluir", naExclude: "No aplica",
+    naMsg: "No aplica — fuera de la figura.",
+    egLabel: "p. ej.:",
+    toolLabel: "Herramienta / servicio", toolPh: "p. ej., Claude, ChatGPT, DeepL",
+    noteLabel: "¿Cómo se usó la IA?", notePh: "nota breve",
+    extentLabels: ["Nada","Algo","Bastante"],
+    extentAria: "Grado de uso de IA en ",
+    thStage: "Etapa", thExtent: "Grado", thHow: "Cómo / herramienta",
+    na: "n/c", dash: "—",
+    legendOuter: "Exterior = Humano", legendCentre: "Centro = IA",
+    statement: "Tras usar cualquier herramienta o servicio, la autoría revisó y editó el contenido según fue necesario y asume toda la responsabilidad por el contenido de la publicación.",
+    btnSVG: "Descargar figura (SVG)", btnPNG: "Descargar figura (PNG)", btnJSON: "Exportar datos (.sifac.json)",
+    sumAllNA: "Todas las etapas marcadas como no aplica",
+    sumNoAI: n => "Sin uso de IA registrado · 0 de " + n + " etapas",
+    sumSome: (used, total, avg) => used + " de " + total + " etapas con IA · grado medio " + avg + "/2",
+    expScale: "Grado de uso de IA · 0 = nada · 1 = algo · 2 = bastante",
+    expAxis: "Cada eje = una etapa del contenido",
+    expBasedOn: "Basado en la sIfA Tool (Schomerus / Busara), Apache 2.0 · github.com/mareikeschomerus-ctrl/sIfA",
+    footer: '<b>sIFAC</b> es una adaptación de la <b>sIfA Tool — Statement of Intellectual Fellowship and Accountability</b>, © 2026 Mareike Schomerus / Busara, distribuida bajo la Licencia Apache 2.0 (<a href="http://www.apache.org/licenses/LICENSE-2.0">apache.org/licenses/LICENSE-2.0</a>). Fuente: <a href="https://github.com/mareikeschomerus-ctrl/sIfA">github.com/mareikeschomerus-ctrl/sIfA</a>. Modificaciones: la taxonomía de investigación CRediT se sustituye por una taxonomía de contenido de nueve etapas (Concepción y Enfoque; Investigación y Fuentes; Estructura; Redacción; Edición y Refinamiento; Revisión; Traducción; Verificación de Datos; Imágenes y Diseño) y el flujo por colaborador se simplifica a una autoevaluación de autor único, con un «no aplica» por etapa. El arte de la figura del cerebro se reutiliza bajo la misma licencia. Añadidos de sIFAC © 2026, distribuidos bajo Apache 2.0. Al redistribuir este archivo, conserva este aviso e incluye una copia de la LICENSE de Apache 2.0 y el archivo NOTICE original.',
+    roles: {
+      conception:  { lines:["Concepción","y Enfoque"],          short:"Concepción y Enfoque",          def:"La idea central, el enfoque y el mensaje — de qué trata la pieza y por qué vale la pena crearla.", ex:"explorar enfoques o ganchos; poner a prueba un argumento; generar opciones de encuadre; afinar la idea clave" },
+      research:    { lines:["Investigación","y Fuentes"],         short:"Investigación y Fuentes",        def:"Los hechos, referencias y ejemplos en los que se apoya la pieza.", ex:"resumir lecturas de base; encontrar datos o citas de apoyo; reunir material previo; mapear lo que ya se ha dicho" },
+      structure:   { lines:["Estructura"],                        short:"Estructura",                    def:"Esquema, secuencia y flujo narrativo.", ex:"esbozar o reordenar un esquema; proponer un arco narrativo; comprobar si el flujo funciona; adaptar la estructura a un formato" },
+      drafting:    { lines:["Redacción"],                       short:"Redacción",                     def:"Producir el texto original — convertir la idea y el esquema en prosa.", ex:"generar un primer borrador a partir de un brief; redactar secciones; expandir notas en prosa; producir formulaciones alternativas" },
+      editing:     { lines:["Edición","y Refinamiento"],         short:"Edición y Refinamiento",         def:"Trabajo a nivel de frase: lenguaje, tono, claridad, concisión y voz.", ex:"editar el texto para mayor claridad; ajustar a la voz de marca; reescribir pasajes torpes; recortar a la extensión deseada" },
+      revision:    { lines:["Revisión"],                        short:"Revisión",                      def:"Reelaboración sustantiva del contenido y del argumento en respuesta a comentarios o a una nueva lectura — no solo de la redacción.", ex:"incorporar comentarios de revisores; reelaborar un argumento que no funcionó; conciliar comentarios contradictorios; decidir qué recortar o ampliar" },
+      translation: { lines:["Traducción"],                      short:"Traducción",                     def:"Trasladar la pieza a otro idioma, incluyendo localizar referencias y mantener la terminología coherente.", ex:"refinar una traducción automática; adaptar modismos y referencias culturales; aplicar un glosario; retrotraducción para comprobar la fidelidad" },
+      verification:{ lines:["Verificación","de Datos"],         short:"Verificación de Datos",          def:"Confirmar que afirmaciones, citas, cifras y fuentes son correctas — incluido detectar lo que la IA haya inventado, tanto en el original como en la traducción.", ex:"verificar contra las fuentes los datos sugeridos por la IA; señalar posibles alucinaciones; cotejar atribuciones; revisar en busca de sesgos" },
+      visuals:     { lines:["Imágenes","y Diseño"],            short:"Imágenes y Diseño",            def:"La capa visual: imágenes, maquetación y diseño que presentan las palabras.", ex:"generar o buscar imágenes; esbozar maquetaciones; crear gráficos o diagramas a partir del contenido; adaptar los visuales a un formato" },
+    }
+  }
+};
+
+// Merge structural metadata with the active language's role text.
+function buildRoles(t){ return ROLE_META.map(m => Object.assign({}, m, t.roles[m.id])); }
+
+// ---- geometry (matches the original sIfA figure space) ----
+const CX = 310, CY = 310, R1 = 74, R2 = 148, LABELR = 214;
+
+function angleFor(j, n){ return (-90 + j*(360/n)) * Math.PI/180; }
+function pointFor(j, n, extent){ const a=angleFor(j,n), r=(extent/2)*R2; return [CX+r*Math.cos(a), CY+r*Math.sin(a)]; }
+function axisEnd(j, n){ const a=angleFor(j,n); return [CX+R2*Math.cos(a), CY+R2*Math.sin(a)]; }
+function labelPos(j, n){ const a=angleFor(j,n); return [CX+LABELR*Math.cos(a), CY+LABELR*Math.sin(a), Math.cos(a)]; }
+
+function smoothClosed(pts){
+  const n=pts.length; if(n<3) return "";
+  let d="M"+pts[0][0].toFixed(1)+","+pts[0][1].toFixed(1)+" ";
+  for(let i=0;i<n;i++){
+    const p0=pts[(i-1+n)%n],p1=pts[i],p2=pts[(i+1)%n],p3=pts[(i+2)%n];
+    const c1x=p1[0]+(p2[0]-p0[0])/6,c1y=p1[1]+(p2[1]-p0[1])/6;
+    const c2x=p2[0]-(p3[0]-p1[0])/6,c2y=p2[1]-(p3[1]-p1[1])/6;
+    d+="C"+c1x.toFixed(1)+","+c1y.toFixed(1)+" "+c2x.toFixed(1)+","+c2y.toFixed(1)+" "+p2[0].toFixed(1)+","+p2[1].toFixed(1)+" ";
+  }
+  return d+"Z";
+}
+function diamond(x,y,fill){ const s=11; return '<path d="M'+x+','+(y-s)+' L'+(x+s*0.42)+','+(y-1.4)+' L'+(x+s)+','+y+' L'+(x+s*0.42)+','+(y+1.4)+' L'+x+','+(y+s)+' L'+(x-s*0.42)+','+(y+1.4)+' L'+(x-s)+','+y+' L'+(x-s*0.42)+','+(y-1.4)+' Z" fill="'+fill+'" stroke="white" stroke-width="1.4" stroke-opacity="0.9"/>'; }
+
+function activeRoles(roles,data){ return roles.filter(r=>!data[r.id].na); }
+
+function buildFigure(roles,data){
+  const ff="font-family:'Montserrat','Segoe UI',Arial,sans-serif";
+  const gyri=ART.gyri.map(d=>'<path d="'+d+'"/>').join("");
+  const wob=ART.wobble.map(d=>'<path d="'+d+'" fill="none" stroke="white" stroke-opacity="0.27" stroke-width="0.95"/>').join("");
+  const act=activeRoles(roles,data), n=act.length;
+
+  let axes="",labels="",markers="";
+  const pts=act.map((r,j)=>pointFor(j,n,data[r.id].extent));
+  act.forEach((r,j)=>{
+    const [ex,ey]=axisEnd(j,n);
+    axes+='<line x1="'+CX+'" y1="'+CY+'" x2="'+ex.toFixed(1)+'" y2="'+ey.toFixed(1)+'" stroke="white" stroke-opacity="0.22" stroke-width="0.7"/>';
+    const [lx,ly,c]=labelPos(j,n);
+    const anchor=c>0.3?"start":(c<-0.3?"end":"middle");
+    const ll=r.lines, startY=ly-(ll.length-1)*8;
+    ll.forEach((ln,k)=>{ labels+='<text x="'+lx.toFixed(1)+'" y="'+(startY+k*15).toFixed(1)+'" text-anchor="'+anchor+'" dominant-baseline="middle" style="'+ff+'" font-size="14.5" font-weight="700" fill="'+r.accent+'">'+esc(ln)+'</text>'; });
+    if(data[r.id].extent>0) markers+=diamond(pts[j][0].toFixed(1),pts[j][1].toFixed(1),data[r.id].extent>=2?"#3B1D7F":"#8C78E0");
+  });
+
+  let aiLayers="";
+  if(n>=3){
+    const blob=smoothClosed(pts);
+    aiLayers='<g clip-path="url(#brainClip)">'+
+      '<path d="'+blob+'" fill="#8C78E0" fill-opacity="0.72" filter="url(#blobBlur)"/>'+
+      '<path d="'+blob+'" fill="#3B1D7F" fill-opacity="0.50" filter="url(#blobBlur)"/></g>'+
+      '<path d="'+blob+'" clip-path="url(#brainClip)" fill="#6E55D6" fill-opacity="0.55" stroke="#5341BC" stroke-width="5" stroke-opacity="0.9"/>';
+  }
+
+  return '<svg viewBox="-25 0 670 620" xmlns="http://www.w3.org/2000/svg" style="'+ff+'">'+
+    '<defs><clipPath id="brainClip"><path d="'+ART.brain+'"/></clipPath>'+
+    '<filter id="blobBlur" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="6"/></filter></defs>'+
+    '<path d="'+ART.brain+'" fill="#DD5510" fill-opacity="0.72" stroke="none"/>'+
+    '<g clip-path="url(#brainClip)" fill="none" stroke="white" stroke-opacity="0.30" stroke-width="1.5" stroke-linecap="round">'+gyri+'</g>'+
+    '<path d="'+ART.brain+'" fill="none" stroke="#5D1F08" stroke-width="1.8"/>'+
+    '<g clip-path="url(#brainClip)">'+wob+axes+'</g>'+
+    aiLayers+
+    '<circle cx="310" cy="310" r="74" fill="none" stroke="#A53807" stroke-opacity="0.92" stroke-width="2.6" stroke-dasharray="5 4"/>'+
+    '<circle cx="310" cy="310" r="148" fill="none" stroke="#A53807" stroke-opacity="0.85" stroke-width="2.3" stroke-dasharray="5 4"/>'+
+    '<rect x="313" y="226" width="20" height="20" rx="4" fill="rgba(0,0,0,0.38)"/><text x="323" y="237" text-anchor="middle" font-size="14" font-weight="800" fill="white">1</text>'+
+    '<rect x="313" y="152" width="20" height="20" rx="4" fill="rgba(0,0,0,0.38)"/><text x="323" y="163" text-anchor="middle" font-size="14" font-weight="800" fill="white">2</text>'+
+    markers+labels+'</svg>';
+}
+
+function summary(roles,data,t){
+  const act=activeRoles(roles,data);
+  if(act.length===0) return t.sumAllNA;
+  const used=act.filter(r=>data[r.id].extent>0);
+  if(used.length===0) return t.sumNoAI(act.length);
+  const avg=used.reduce((s,r)=>s+data[r.id].extent,0)/used.length;
+  return t.sumSome(used.length, act.length, avg.toFixed(1));
+}
+
+function esc(s){return (s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
+function slug(s){return (s||"sifac").toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"").slice(0,48)||"sifac";}
+function download(blob,name){const u=URL.createObjectURL(blob);const a=document.createElement("a");a.href=u;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),1500);}
+function wrapText(t,cx,y,ff,fill){
+  const words=t.split(" ");let line="",lines=[];
+  words.forEach(w=>{ if((line+" "+w).length>64){lines.push(line);line=w;} else line=line?line+" "+w:w; });
+  if(line)lines.push(line);
+  return lines.map((ln,i)=>'<text x="'+cx+'" y="'+(y+i*16)+'" text-anchor="middle" style="'+ff+'" font-size="11.5" font-style="italic" fill="'+fill+'">'+esc(ln)+'</text>').join("");
+}
+function buildExportSVG(meta,roles,data,t){
+  const W=560,H=770,fig=buildFigure(roles,data),inner=fig.replace(/^<svg[^>]*>/,'').replace(/<\/svg>$/,'');
+  const ff="font-family:'Montserrat','Segoe UI',Arial,sans-serif";
+  const title=meta.title||BRAND.name;
+  let s='<svg xmlns="http://www.w3.org/2000/svg" width="'+W+'" height="'+H+'" viewBox="0 0 '+W+' '+H+'"><rect width="'+W+'" height="'+H+'" fill="white"/>';
+  s+='<text x="'+(W/2)+'" y="32" text-anchor="middle" style="'+ff+'" font-size="20" font-weight="800" fill="#1E293B">'+esc(title)+'</text>';
+  s+='<text x="'+(W/2)+'" y="50" text-anchor="middle" style="'+ff+'" font-size="11" fill="#94A3B8">'+esc("sIFAC \u00B7 "+t.full)+'</text>';
+  if(meta.author) s+='<text x="'+(W/2)+'" y="66" text-anchor="middle" style="'+ff+'" font-size="12" fill="#64748B">'+esc(meta.author)+'</text>';
+  s+='<svg x="30" y="76" width="500" height="463" viewBox="-25 0 670 620">'+inner+'</svg>';
+  s+='<line x1="30" y1="556" x2="530" y2="556" stroke="#E2E8F0"/>';
+  s+='<text x="'+(W/2)+'" y="576" text-anchor="middle" style="'+ff+'" font-size="12.5" fill="#64748B">'+esc(t.expScale)+'</text>';
+  s+='<text x="'+(W/2)+'" y="594" text-anchor="middle" style="'+ff+'" font-size="12.5" fill="#334155">'+esc(summary(roles,data,t))+'</text>';
+  s+='<rect x="150" y="608" width="20" height="14" rx="2" fill="#DD5510" opacity="0.72"/><text x="178" y="620" style="'+ff+'" font-size="13" font-weight="600" fill="#334155">'+esc(t.legendOuter)+'</text>';
+  s+='<rect x="320" y="608" width="20" height="14" rx="2" fill="#6E55D6" opacity="0.72"/><text x="348" y="620" style="'+ff+'" font-size="13" font-weight="600" fill="#334155">'+esc(t.legendCentre)+'</text>';
+  s+='<text x="'+(W/2)+'" y="644" text-anchor="middle" style="'+ff+'" font-size="11.5" font-style="italic" fill="#475569">'+esc(t.expAxis)+'</text>';
+  s+='<line x1="30" y1="658" x2="530" y2="658" stroke="#E2E8F0"/>';
+  s+=wrapText(t.statement,W/2,678,ff,"#334155");
+  s+='<text x="'+(W/2)+'" y="742" text-anchor="middle" style="'+ff+'" font-size="10" fill="#94A3B8">'+esc(t.expBasedOn)+'</text>';
+  return s+'</svg>';
+}
+function exportSVG(meta,roles,data,t){ download(new Blob([buildExportSVG(meta,roles,data,t)],{type:"image/svg+xml"}), slug(meta.title||"sifac")+".svg"); }
+function exportPNG(meta,roles,data,t){
+  const svg=buildExportSVG(meta,roles,data,t);
+  const img=new Image();
+  img.onload=function(){ const sc=2,c=document.createElement("canvas");c.width=560*sc;c.height=770*sc;const ctx=c.getContext("2d");ctx.scale(sc,sc);ctx.fillStyle="#fff";ctx.fillRect(0,0,560,770);ctx.drawImage(img,0,0,560,770);c.toBlob(b=>download(b,slug(meta.title||"sifac")+".png"),"image/png"); };
+  img.src="data:image/svg+xml;base64,"+btoa(unescape(encodeURIComponent(svg)));
+}
+function exportJSON(meta,roles,data,t,lang){
+  const obj={ tool:"sIFAC", basedOn:"sIfA Tool (Schomerus/Busara), Apache-2.0", version:1, kind:"sifac-statement", lang:lang,
+    savedAt:new Date().toISOString(), title:meta.title||"", author:meta.author||"",
+    stages: roles.map(r=>({ id:r.id, label:r.short, applicable:!data[r.id].na, extent:data[r.id].na?0:data[r.id].extent, tool:data[r.id].tool||"", note:data[r.id].note||"" })) };
+  download(new Blob([JSON.stringify(obj,null,2)],{type:"application/json"}), slug(meta.title||"sifac")+".sifac.json");
+}
+
+function App(){
+  const [lang,setLang]=useState(()=>{ const n=(typeof navigator!=="undefined"&&navigator.language||"en").toLowerCase(); return n.indexOf("pt")===0?"pt":n.indexOf("es")===0?"es":"en"; });
+  const t=STRINGS[lang];
+  const roles=useMemo(()=>buildRoles(t),[lang]);
+
+  const [meta,setMeta]=useState({title:"",author:""});
+  const [data,setData]=useState(()=>{const o={};ROLE_META.forEach(r=>o[r.id]={extent:0,tool:"",note:"",na:false});return o;});
+  const setExtent=(id,v)=>setData(d=>({...d,[id]:{...d[id],extent:v}}));
+  const setField=(id,k,v)=>setData(d=>({...d,[id]:{...d[id],[k]:v}}));
+  const toggleNA=(id)=>setData(d=>({...d,[id]:{...d[id],na:!d[id].na}}));
+  const figure=useMemo(()=>buildFigure(roles,data),[roles,data]);
+
+  useEffect(()=>{ document.documentElement.lang=t.htmlLang; document.title="sIFAC \u2014 "+t.full; },[lang]);
+
+  return (
+    <div className="wrap">
+      <header className="app" style={{display:"flex",justifyContent:"space-between",alignItems:"flex-end",gap:"12px",flexWrap:"wrap"}}>
+        <div>
+          <h1>{BRAND.name}</h1>
+          <p className="full">{t.full}</p>
+        </div>
+        <div className="langtoggle" role="group" aria-label="Language">
+          {Object.keys(STRINGS).map(code=>(
+            <button key={code} type="button" aria-pressed={lang===code} onClick={()=>setLang(code)}
+              style={{border:"1.5px solid "+(lang===code?"#6E55D6":"#E2E8F0"),background:lang===code?"#6E55D6":"#fff",color:lang===code?"#fff":"#64748B",borderRadius:"7px",padding:"5px 11px",marginLeft:"6px",fontFamily:"inherit",fontSize:"12px",fontWeight:700,letterSpacing:".03em",cursor:"pointer"}}>
+              {STRINGS[code].label}
+            </button>
+          ))}
+        </div>
+      </header>
+      <p className="intro" dangerouslySetInnerHTML={{__html:t.intro}}/>
+
+      <div className="grid">
+        <div>
+          <div className="meta">
+            <div className="field"><label htmlFor="t">{t.pieceLabel}</label><input id="t" placeholder={t.piecePh} value={meta.title} onChange={e=>setMeta(m=>({...m,title:e.target.value}))}/></div>
+            <div className="field"><label htmlFor="a">{t.byLabel}</label><input id="a" placeholder={t.byPh} value={meta.author} onChange={e=>setMeta(m=>({...m,author:e.target.value}))}/></div>
+          </div>
+
+          {roles.map(r=>{
+            const d=data[r.id];
+            return (
+              <div className={"card"+(d.na?" na":"")} key={r.id}>
+                <div className="bar" style={{background:r.accent}}></div>
+                <div className="rhead">
+                  <div>
+                    <p className="rname" style={{color:r.accent}}>{r.short}</p>
+                    <p className="rdef">{r.def}</p>
+                  </div>
+                  <button className="na-toggle" aria-pressed={d.na} onClick={()=>toggleNA(r.id)}>{d.na?t.naInclude:t.naExclude}</button>
+                </div>
+                {d.na ? (
+                  <p className="na-msg">{t.naMsg}</p>
+                ) : (
+                  <React.Fragment>
+                    <p className="ex"><b>{t.egLabel}</b> {r.ex}</p>
+                    <div className="extent" role="group" aria-label={t.extentAria+r.short}>
+                      {[0,1,2].map(v=>(
+                        <button key={v} aria-pressed={d.extent===v}
+                          style={d.extent===v?{background:r.accent,borderColor:r.accent}:{}}
+                          onClick={()=>setExtent(r.id,v)}>
+                          <span className="lvl">{v}</span>{t.extentLabels[v]}
+                        </button>
+                      ))}
+                    </div>
+                    {d.extent>0 && (
+                      <div className="detail">
+                        <div><div className="lab">{t.toolLabel}</div><input placeholder={t.toolPh} value={d.tool} onChange={e=>setField(r.id,"tool",e.target.value)}/></div>
+                        <div><div className="lab">{t.noteLabel}</div><input placeholder={t.notePh} value={d.note} onChange={e=>setField(r.id,"note",e.target.value)}/></div>
+                      </div>
+                    )}
+                  </React.Fragment>
+                )}
+              </div>
+            );
+          })}
+        </div>
+
+        <div className="right">
+          <div className="figbox"><div dangerouslySetInnerHTML={{__html:figure}}/></div>
+          <div className="legend"><span><span className="sw" style={{background:"#DD5510",opacity:.72}}></span>{t.legendOuter}</span><span><span className="sw" style={{background:"#6E55D6",opacity:.72}}></span>{t.legendCentre}</span></div>
+          <div className="caption">{summary(roles,data,t)}</div>
+          <p className="stmt">{t.statement}</p>
+
+          <table className="tbl">
+            <thead><tr><th>{t.thStage}</th><th>{t.thExtent}</th><th>{t.thHow}</th></tr></thead>
+            <tbody>
+              {roles.map(r=>{
+                const d=data[r.id];
+                if(d.na) return (<tr className="skip" key={r.id}><td className="rolecell">{r.short}</td><td>{t.na}</td><td>{t.dash}</td></tr>);
+                return (
+                  <tr key={r.id}>
+                    <td className="rolecell" style={{color:r.accent}}>{r.short}</td>
+                    <td><span className="sq" style={{background:d.extent>=1?"#8C78E0":"#E2E8F0"}}></span><span className="sq" style={{background:d.extent>=2?"#3B1D7F":"#E2E8F0"}}></span>&nbsp;{d.extent}</td>
+                    <td>{d.extent>0 ? ([d.note,d.tool].filter(Boolean).join(" "+t.dash+" ")||t.dash) : t.dash}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+
+          <div className="actions">
+            <button onClick={()=>exportSVG(meta,roles,data,t)}>{t.btnSVG}</button>
+            <button onClick={()=>exportPNG(meta,roles,data,t)}>{t.btnPNG}</button>
+            <button className="ghost" onClick={()=>exportJSON(meta,roles,data,t,lang)}>{t.btnJSON}</button>
+          </div>
+        </div>
+      </div>
+
+      <footer className="app" dangerouslySetInnerHTML={{__html:t.footer}}/>
+    </div>
+  );
+}
+ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
+</script>
+</body>
+</html>

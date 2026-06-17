@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/sIATC.schema.json",
+  "title": "sIATC statement file",
+  "description": "Schema for a .sIATC.json file produced by sIATC \u2014 Statement of Intellectual Fellowship and Accountability for Content. A single-author self-assessment of human/AI interaction across nine content-production stages. sIATC is a derivative of the sIfA Tool (Schomerus / Busara), Apache-2.0.",
+  "type": "object",
+  "required": ["version", "kind", "savedAt", "stages"],
+  "additionalProperties": false,
+  "properties": {
+    "tool":    { "type": "string", "description": "Informational. The tool that wrote the file, e.g. 'sIATC'." },
+    "basedOn": { "type": "string", "description": "Informational provenance note crediting the upstream sIfA tool." },
+    "version": { "type": "integer", "const": 1, "description": "Schema major version. Bumped only on incompatible changes." },
+    "kind":    { "type": "string", "const": "sIATC-statement", "description": "Discriminator marking this as a sIATC statement." },
+    "savedAt": { "type": "string", "format": "date-time", "description": "ISO 8601 timestamp. Informational." },
+    "title":   { "type": "string", "description": "Title of the piece the statement describes." },
+    "author":  { "type": "string", "description": "Author/owner who takes responsibility for the content." },
+    "stages": {
+      "type": "array",
+      "minItems": 1,
+      "description": "One entry per content stage. A full sIATC has all nine; smaller fixtures stay valid.",
+      "items": { "$ref": "#/$defs/stage" }
+    }
+  },
+  "$defs": {
+    "stage": {
+      "type": "object",
+      "required": ["id", "extent"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Stable stage identifier.",
+          "enum": ["conception","research","structure","drafting","editing","revision","translation","verification","visuals"]
+        },
+        "label": { "type": "string", "description": "Human-readable stage label." },
+        "applicable": {
+          "type": "boolean",
+          "description": "False when the stage did not occur for this piece (e.g. a monolingual piece has no Translation). Non-applicable stages are excluded from the figure; extent must then be 0."
+        },
+        "extent": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2,
+          "description": "Extent of AI use in this stage. 0 = none (a human did it); 1 = some; 2 = extensive."
+        },
+        "tool": { "type": "string", "description": "AI tool or service used in this stage (e.g. 'Claude', 'DeepL'). May be empty." },
+        "note": { "type": "string", "description": "Short audit-trail note on how AI was used. Recommended when extent > 0." }
+      }
+    }
+  }
+}
