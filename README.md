@@ -581,20 +581,10 @@ sIATC is intended to be easy to redistribute as a single HTML file.
 A public release may include:
 
 - an online version that loads dependencies from a CDN;
-- an offline version that embeds all dependencies directly in the HTML;
 - example `.sIATC.json` files;
 - example exported figures;
 - citation and attribution files.
-
-If an offline build script is used, document it here. A typical offline-build script would:
-
-1. Read the main `sIATC_vX.X.html` file.
-2. Download or read cached JavaScript dependencies.
-3. Inline those dependencies into the HTML file.
-4. Write a standalone offline HTML file.
-5. Preserve the license and attribution comments in the generated file.
-
-The offline file is usually larger, but it is more useful in low-connectivity environments and for archival purposes.
+- Note: we have opted for not developing an offline version.
 
 ### Known limitations
 
@@ -607,7 +597,7 @@ The offline file is usually larger, but it is more useful in low-connectivity en
 - The tool does not inspect prompts, logs, files, or AI outputs unless the author records them manually.
 - The tool does not upload, store, or validate data remotely.
 - Browser behavior may vary for downloads, especially between Chromium-based browsers, Safari, and Firefox.
-- If external libraries are loaded from a CDN, internet access may be required unless an offline version is provided.
+- External libraries are loaded from a CDN, internet access is required.
 - The taxonomy is designed for written content. Highly visual, audiovisual, software, data, or research-heavy projects may require a different taxonomy or the original sIfA tool.
 
 ## Citation and attribution
@@ -1248,20 +1238,10 @@ O sIATC foi pensado para ser facilmente redistribuído como um único arquivo HT
 Uma versão pública pode incluir:
 
 - uma versão online que carrega dependências por CDN;
-- uma versão offline que incorpora todas as dependências no HTML;
 - arquivos `.sIATC.json` de exemplo;
 - figuras exportadas de exemplo;
 - arquivos de citação e atribuição.
-
-Se um script de build offline for usado, documente-o nesta seção. Um script típico faria:
-
-1. Ler o arquivo principal `sIATC_vX.X.html`.
-2. Baixar ou ler do cache as dependências JavaScript.
-3. Embutir essas dependências no HTML.
-4. Gerar um arquivo HTML offline autocontido.
-5. Preservar os comentários de licença e atribuição no arquivo gerado.
-
-O arquivo offline costuma ser maior, mas é mais útil em ambientes de baixa conectividade e para fins de arquivamento.
+- Nota: optamos por não desenvolver uma versão offline. 
 
 ### Limitações conhecidas
 
@@ -1274,7 +1254,7 @@ O arquivo offline costuma ser maior, mas é mais útil em ambientes de baixa con
 - A ferramenta não inspeciona prompts, logs, arquivos ou outputs de IA, salvo quando a autoria registra manualmente.
 - A ferramenta não envia, armazena ou valida dados remotamente.
 - O comportamento de download pode variar entre navegadores, especialmente entre navegadores baseados em Chromium, Safari e Firefox.
-- Se bibliotecas externas forem carregadas por CDN, pode ser necessário acesso à internet, a menos que uma versão offline seja fornecida.
+- As bibliotecas externas são carregadas da CDN, é necessário acesso à internet.
 - A taxonomia foi desenhada para conteúdo escrito. Projetos altamente visuais, audiovisuais, de software, de dados ou fortemente orientados à pesquisa podem exigir outra taxonomia ou o uso do sIfA original.
 
 ## Citação e atribuição
@@ -1915,20 +1895,10 @@ sIATC fue pensado para redistribuirse fácilmente como un único archivo HTML.
 Una versión pública puede incluir:
 
 - una versión online que carga dependencias desde CDN;
-- una versión offline que incorpora todas las dependencias en el HTML;
 - archivos `.sIATC.json` de ejemplo;
 - figuras exportadas de ejemplo;
 - archivos de citación y atribución.
-
-Si se usa un script de build offline, documéntelo en esta sección. Un script típico haría lo siguiente:
-
-1. Leer el archivo principal `sIATC_vX.X.html`.
-2. Descargar o leer desde caché las dependencias JavaScript.
-3. Incorporar esas dependencias en el HTML.
-4. Generar un archivo HTML offline autocontenido.
-5. Preservar los comentarios de licencia y atribución en el archivo generado.
-
-El archivo offline suele ser más grande, pero es más útil en ambientes de baja conectividad y para fines de archivo.
+- Nota: optamos por no deserollar una versión offline. 
 
 ### Limitaciones conocidas
 
@@ -1941,7 +1911,7 @@ El archivo offline suele ser más grande, pero es más útil en ambientes de baj
 - La herramienta no inspecciona prompts, logs, archivos ni outputs de IA, salvo cuando la autoría los registra manualmente.
 - La herramienta no envía, almacena ni valida datos remotamente.
 - El comportamiento de descarga puede variar entre navegadores, especialmente entre navegadores basados en Chromium, Safari y Firefox.
-- Si bibliotecas externas se cargan desde CDN, puede ser necesario acceso a internet, salvo que se proporcione una versión offline.
+- Las bibliotecas externas se cargan desde CDN, es necesario acceso a internet.
 - La taxonomía fue diseñada para contenido escrito. Proyectos altamente visuales, audiovisuales, de software, de datos o fuertemente orientados a investigación pueden requerir otra taxonomía o el uso del sIfA original.
 
 ## Citación y atribución
