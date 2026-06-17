@@ -574,27 +574,16 @@ Changing the taxonomy should be done carefully. A stable taxonomy makes differen
 - preserve attribution to sIfA if the derivative still uses the original tool structure or visual assets;
 - update example files and schema files accordingly.
 
-### Build and offline use
+### Build and use
 
 sIATC is intended to be easy to redistribute as a single HTML file.
 
 A public release may include:
 
 - an online version that loads dependencies from a CDN;
-- an offline version that embeds all dependencies directly in the HTML;
 - example `.sIATC.json` files;
 - example exported figures;
 - citation and attribution files.
-
-If an offline build script is used, document it here. A typical offline-build script would:
-
-1. Read the main `sIATC_vX.X.html` file.
-2. Download or read cached JavaScript dependencies.
-3. Inline those dependencies into the HTML file.
-4. Write a standalone offline HTML file.
-5. Preserve the license and attribution comments in the generated file.
-
-The offline file is usually larger, but it is more useful in low-connectivity environments and for archival purposes.
 
 ### Known limitations
 
@@ -1241,27 +1230,16 @@ Alterações na taxonomia devem ser feitas com cuidado. Uma taxonomia estável f
 - preservar a atribuição ao sIfA se a derivação ainda usar a estrutura ou os ativos visuais originais;
 - atualizar exemplos e arquivos de schema, quando houver.
 
-### Build e uso offline
+### Build e uso 
 
 O sIATC foi pensado para ser facilmente redistribuído como um único arquivo HTML.
 
 Uma versão pública pode incluir:
 
 - uma versão online que carrega dependências por CDN;
-- uma versão offline que incorpora todas as dependências no HTML;
 - arquivos `.sIATC.json` de exemplo;
 - figuras exportadas de exemplo;
 - arquivos de citação e atribuição.
-
-Se um script de build offline for usado, documente-o nesta seção. Um script típico faria:
-
-1. Ler o arquivo principal `sIATC_vX.X.html`.
-2. Baixar ou ler do cache as dependências JavaScript.
-3. Embutir essas dependências no HTML.
-4. Gerar um arquivo HTML offline autocontido.
-5. Preservar os comentários de licença e atribuição no arquivo gerado.
-
-O arquivo offline costuma ser maior, mas é mais útil em ambientes de baixa conectividade e para fins de arquivamento.
 
 ### Limitações conhecidas
 
@@ -1908,27 +1886,16 @@ Los cambios en la taxonomía deben hacerse con cuidado. Una taxonomía estable f
 - preservar la atribución a sIfA si la derivación aún usa la estructura o los activos visuales originales;
 - actualizar ejemplos y archivos de schema, cuando existan.
 
-### Build y uso offline
+### Build y uso 
 
 sIATC fue pensado para redistribuirse fácilmente como un único archivo HTML.
 
 Una versión pública puede incluir:
 
 - una versión online que carga dependencias desde CDN;
-- una versión offline que incorpora todas las dependencias en el HTML;
 - archivos `.sIATC.json` de ejemplo;
 - figuras exportadas de ejemplo;
 - archivos de citación y atribución.
-
-Si se usa un script de build offline, documéntelo en esta sección. Un script típico haría lo siguiente:
-
-1. Leer el archivo principal `sIATC_vX.X.html`.
-2. Descargar o leer desde caché las dependencias JavaScript.
-3. Incorporar esas dependencias en el HTML.
-4. Generar un archivo HTML offline autocontenido.
-5. Preservar los comentarios de licencia y atribución en el archivo generado.
-
-El archivo offline suele ser más grande, pero es más útil en ambientes de baja conectividad y para fines de archivo.
 
 ### Limitaciones conocidas
 
