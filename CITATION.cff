@@ -1,28 +1,31 @@
 cff-version: 1.2.0
-title: "sIATC — Statement of Intellectual Accountability and Transparency for Content"
-message: "If you use sIATC, please cite it together with the upstream sIfA tool."
+title: "sIATC - Statement of Intellectual Accountability and Transparency for Content"
+message: "If you use sIATC, please cite it using the metadata below."
 type: software
 authors:
-  - family-names: "Ferreira"
-    given-names: "Luis"
+  - family-names: Ferreira
+    given-names: Luis
     # orcid: "https://orcid.org/0009-0001-0916-3944"
 version: "1.2"
-date-released: "2026-06-15"
-license: Apache-2.orci0
-repository-code: "<YOUR REPO URL>"
-# doi: "<YOUR ZENODO DOI, once registered>"
-abstract: >-
-  sIFAC is a browser-based self-assessment of human/AI interaction across the
-  nine stages of producing written content. It is an Apache-2.0 derivative of
-  the sIfA Tool (Schomerus / Busara).
+date-released: 2026-06-16
+doi: 10.5281/zenodo.20733182
+url: "https://github.com/lpcferreira/sIATC"
+repository-code: "https://github.com/lpcferreira/sIATC"
+license: Apache-2.0
+abstract: "sIATC is a browser-based self-assessment tool for documenting how AI tools were used in the production of written content."
+keywords:
+  - AI transparency
+  - AI disclosure
+  - content production
+  - authorship
+  - accountability
+  - editorial process
+  - human AI interaction
+  - self-assessment
 references:
   - type: software
-    title: "sIfA Tool — Statement of Intellectual Fellowship and Accountability"
+    title: "sIfA Tool - Statement of Intellectual Fellowship and Accountability"
     authors:
       - family-names: Schomerus
         given-names: Mareike
-    version: "1.2"
     doi: "10.5281/zenodo.20285993"
-    repository-code: "https://github.com/mareikeschomerus-ctrl/sIfA"
-    license: Apache-2.0
-    year: 2026

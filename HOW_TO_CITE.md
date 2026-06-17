@@ -9,9 +9,7 @@ it is derived from.
 
 ## Cite sIFAC
 
-> `Luis Ferreira` (2026). *sIATC — Statement of Intellectual Fellowship and
-> Accountability for Content* (Version 1.0) [Computer software].
-> `<YOUR REPO URL>`. `<YOUR DOI, if registered>`
+> Ferreira, L. (2026). *sIATC - Statement of Intellectual Accountability and Transparency for Content* (Version 1.2) [Computer software]. Zenodo. https://doi.org/10.5281/zenodo.20733182
 
 ## Cite the upstream sIfA tool (always include alongside)
 
@@ -27,11 +25,7 @@ it is derived from.
 
 ## Caption for the sIFAC figure
 
-> Statement of Intellectual Fellowship and Accountability for Content (sIFAC)
-> for this work. The orange field represents human contribution; the inner
-> purple shape represents AI; each axis is one content stage. Generated with
-> sIFAC v1.0, adapted from the sIfA Tool (Schomerus, 2026). Responsibility for
-> the content rests with the human author(s).
+> Statement of Intellectual Accountability and Transparency for Content (sIATC) for this work. The orange field represents human contribution; the inner purple shape represents AI interaction; each axis is one content stage. Generated with sIATC v1.2, adapted from the sIfA Tool (Schomerus, 2026). Responsibility for the content rests with the human author(s).
 
 A machine-readable `CITATION.cff` is included at the repository root; fill in the
 placeholder fields with your name, repository URL, and DOI.

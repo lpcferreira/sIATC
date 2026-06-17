@@ -1,11 +1,12 @@
 # sIATC - Statement of Intellectual Accountability and Transparency for Content
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20733182.svg)](https://doi.org/10.5281/zenodo.20733182)
 [![Original sIfA DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20285993.svg)](https://doi.org/10.5281/zenodo.20285993)
 
 A browser-based tool for declaring how AI tools contributed to a piece of written content, mapped onto a nine-stage content-production taxonomy. Produces a structured table and a single-page visualization, the sIATC figure, that can be attached to an article, report, essay, post, book chapter, newsletter, institutional text, presentation, or other editorial output.
 
 > **sIATC** retains its lineage from the original sIfA tool, but this content-focused adaptation uses the framing **Statement of Intellectual Accountability and Transparency for Content**.
-> "Intellectual accountability" means that the human author remains responsible for control, review, verification, and final approval of the content. "Transparency" means that AI use should be described clearly, stage by stage, without treating AI systems as authors, tools, moral agents, or responsible parties. 
+> "Intellectual accountability" means that the human author remains responsible for control, review, verification, and final approval of the content. "Transparency" means that AI use should be described clearly, stage by stage, without treating AI systems as authors, collaborators, moral agents, or responsible parties. 
 
 sIATC is a modified derivative of the original **sIfA Tool - Statement of Intellectual Fellowship and Accountability**, created by Mareike Schomerus / Busara and released under the Apache License 2.0.
 
@@ -45,7 +46,7 @@ sIATC gives authors, editors, researchers, communicators, publishers, organizati
 
 It is designed for content, not only for research.
 
-The original sIfA was developed to support reflection on human/AI interaction in knowledge production, especially research outputs. It uses contribution roles associated with research processes. sIATC keeps the same core idea of reflection and accountability, but adapts the terminology for content production by emphasizing intellectual accountability and transparency rather than fellowship. This avoids treating AI systems as authors, tools, moral agents, or responsible parties. It also changes the unit of analysis from research contribution roles to the stages of creating written content.
+The original sIfA was developed to support reflection on human/AI interaction in knowledge production, especially research outputs. It uses contribution roles associated with research processes. sIATC keeps the same core idea of reflection and accountability, but adapts the terminology for content production by emphasizing intellectual accountability and transparency rather than fellowship. This avoids treating AI systems as authors, collaborators, moral agents, or responsible parties. It also changes the unit of analysis from research contribution roles to the stages of creating written content.
 
 That change matters. An article, report, book, LinkedIn post, institutional statement, newsletter, or opinion essay may involve research, but it also involves editorial choices that are not fully captured by research taxonomies. A content author may need to reflect on how AI helped define the angle, organize the sequence, draft passages, refine tone, translate, check facts, or create visuals. These are distinct forms of participation. They should not be collapsed into a single disclosure note.
 
@@ -606,13 +607,9 @@ A public release may include:
 
 Once sIATC has its own DOI, cite it as:
 
-> Ferreira, Luis. *sIATC - Statement of Intellectual Accountability and Transparency for Content.* Version X.X. 2026. [Repository or publisher]. https://doi.org/[ADD-sIATC-DOI]
+> Ferreira, Luis. *sIATC - Statement of Intellectual Accountability and Transparency for Content.* Version 1.2. 2026. Zenodo. https://doi.org/10.5281/zenodo.20733182
 
-Until a sIATC DOI is created, cite the GitHub repository and version tag:
-
-> Ferreira, Luis. *sIATC - Statement of Intellectual Accountability and Transparency for Content.* Version X.X. 2026. GitHub. [ADD-REPOSITORY-URL]
-
-A machine-readable version of the same information can be provided in `CITATION.cff`, which GitHub uses to populate the "Cite this repository" button.
+A machine-readable version of the same information is provided in `CITATION.cff`, which GitHub uses to populate the "Cite this repository" button.
 
 ### Citing the original sIfA tool
 
@@ -1261,15 +1258,13 @@ Uma versão pública pode incluir:
 
 ### Como citar o sIATC
 
-Quando o sIATC tiver seu próprio DOI, cite assim:
+### Como citar o sIATC
 
-> Ferreira, Luis. *sIATC - Statement of Intellectual Accountability and Transparency for Content.* Version X.X. 2026. [Repository or publisher]. https://doi.org/[ADD-sIATC-DOI]
+Cite esta versão assim:
 
-Até que o DOI do sIATC seja criado, cite o repositório GitHub e a tag de versão:
+> Ferreira, Luis. *sIATC - Statement of Intellectual Accountability and Transparency for Content.* Version 1.2. 2026. Zenodo. https://doi.org/10.5281/zenodo.20733182
 
-> Ferreira, Luis. *sIATC - Statement of Intellectual Accountability and Transparency for Content.* Version X.X. 2026. GitHub. [ADD-REPOSITORY-URL]
-
-Uma versão legível por máquina da mesma informação pode ser fornecida em `CITATION.cff`, usado pelo GitHub para preencher o botão "Cite this repository".
+Uma versão legível por máquina da mesma informação está disponível em `CITATION.cff`, usado pelo GitHub para preencher o botão "Cite this repository".
 
 ### Como citar o sIfA original
 
@@ -1918,15 +1913,11 @@ Una versión pública puede incluir:
 
 ### Cómo citar sIATC
 
-Cuando sIATC tenga su propio DOI, cite así:
+Cite esta versión así:
 
-> Ferreira, Luis. *sIATC - Statement of Intellectual Accountability and Transparency for Content.* Version X.X. 2026. [Repository or publisher]. https://doi.org/[ADD-sIATC-DOI]
+> Ferreira, Luis. *sIATC - Statement of Intellectual Accountability and Transparency for Content.* Version 1.2. 2026. Zenodo. https://doi.org/10.5281/zenodo.20733182
 
-Hasta que se cree el DOI de sIATC, cite el repositorio GitHub y la etiqueta de versión:
-
-> Ferreira, Luis. *sIATC - Statement of Intellectual Accountability and Transparency for Content.* Version X.X. 2026. GitHub. [ADD-REPOSITORY-URL]
-
-Una versión legible por máquina de la misma información puede proporcionarse en `CITATION.cff`, usado por GitHub para completar el botón "Cite this repository".
+Una versión legible por máquina de la misma información está disponible en `CITATION.cff`, usado por GitHub para completar el botón "Cite this repository".
 
 ### Cómo citar el sIfA original
 

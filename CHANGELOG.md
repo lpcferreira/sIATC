@@ -11,7 +11,9 @@ This repository begins with public release `v1.2.0`. Earlier versions `v1.0.0` a
 
 The format is inspired by [Keep a Changelog](https://keepachangelog.com/), and this project uses semantic versioning where practical.
 
-## [1.2.0] - 2026-06-16
+## [1.2.0] - 2026-06-17
+
+DOI: https://doi.org/10.5281/zenodo.20733182
 
 First public, DOI-ready release of sIATC.
 
