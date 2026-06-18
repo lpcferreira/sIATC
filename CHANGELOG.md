@@ -9,6 +9,16 @@ This repository begins with public release `v1.2.0`. Earlier versions `v1.0.0`
 and `v1.1.0` were developed before repository publication and are recorded here
 for continuity, but are not separately archived as GitHub or Zenodo releases.
 
+## [1.2.2] - 2026-06-17
+
+### Fixed
+
+* Long titles and subtitles no longer overflow or get clipped in the exported
+  figure (SVG and PNG). The title and the tool name now wrap onto multiple lines
+  according to the available width, and the export canvas grows in height to fit
+  the wrapped header instead of using a fixed height. This previously cut off
+  the full tool name and longer piece titles at the image edges.
+
 ## [1.2.1] - 2026-06-17
 
 ### Fixed

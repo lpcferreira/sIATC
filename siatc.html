@@ -325,32 +325,44 @@ function wrapText(t,cx,y,ff,fill){
   if(line)lines.push(line);
   return lines.map((ln,i)=>'<text x="'+cx+'" y="'+(y+i*16)+'" text-anchor="middle" style="'+ff+'" font-size="11.5" font-style="italic" fill="'+fill+'">'+esc(ln)+'</text>').join("");
 }
+function wrapByWidth(str,maxWidth,fontSize){
+  const maxChars=Math.max(8,Math.floor(maxWidth/(fontSize*0.58)));
+  const words=String(str||"").split(" ");let line="",lines=[];
+  words.forEach(w=>{ if(line && (line+" "+w).length>maxChars){lines.push(line);line=w;} else line=line?line+" "+w:w; });
+  if(line)lines.push(line);
+  return lines.length?lines:[""];
+}
 function buildExportSVG(meta,roles,data,t){
-  const W=560,H=770,fig=buildFigure(roles,data),inner=fig.replace(/^<svg[^>]*>/,'').replace(/<\/svg>$/,'');
+  const W=560,fig=buildFigure(roles,data),inner=fig.replace(/^<svg[^>]*>/,'').replace(/<\/svg>$/,'');
   const ff="font-family:'Montserrat','Segoe UI',Arial,sans-serif";
   const title=meta.title||BRAND.name;
+  const M=24;
+  let head="",y=14;
+  wrapByWidth(title,W-2*M,20).forEach(ln=>{ y+=23; head+='<text x="'+(W/2)+'" y="'+y+'" text-anchor="middle" style="'+ff+'" font-size="20" font-weight="800" fill="#1E293B">'+esc(ln)+'</text>'; });
+  y+=5;
+  wrapByWidth("sIATC \u00B7 "+t.full,W-2*M,11).forEach(ln=>{ y+=14; head+='<text x="'+(W/2)+'" y="'+y+'" text-anchor="middle" style="'+ff+'" font-size="11" fill="#94A3B8">'+esc(ln)+'</text>'; });
+  if(meta.author){ y+=17; head+='<text x="'+(W/2)+'" y="'+y+'" text-anchor="middle" style="'+ff+'" font-size="12" fill="#64748B">'+esc(meta.author)+'</text>'; }
+  const figTop=Math.round(y+12), dy=figTop-76, H=770+dy;
   let s='<svg xmlns="http://www.w3.org/2000/svg" width="'+W+'" height="'+H+'" viewBox="0 0 '+W+' '+H+'"><rect width="'+W+'" height="'+H+'" fill="white"/>';
-  s+='<text x="'+(W/2)+'" y="32" text-anchor="middle" style="'+ff+'" font-size="20" font-weight="800" fill="#1E293B">'+esc(title)+'</text>';
-  s+='<text x="'+(W/2)+'" y="50" text-anchor="middle" style="'+ff+'" font-size="11" fill="#94A3B8">'+esc("sIATC \u00B7 "+t.full)+'</text>';
-  if(meta.author) s+='<text x="'+(W/2)+'" y="66" text-anchor="middle" style="'+ff+'" font-size="12" fill="#64748B">'+esc(meta.author)+'</text>';
-  s+='<svg x="30" y="76" width="500" height="463" viewBox="-25 0 670 620">'+inner+'</svg>';
-  s+='<line x1="30" y1="556" x2="530" y2="556" stroke="#E2E8F0"/>';
-  s+='<text x="'+(W/2)+'" y="576" text-anchor="middle" style="'+ff+'" font-size="12.5" fill="#64748B">'+esc(t.expScale)+'</text>';
-  s+='<text x="'+(W/2)+'" y="594" text-anchor="middle" style="'+ff+'" font-size="12.5" fill="#334155">'+esc(summary(roles,data,t))+'</text>';
-  s+='<rect x="150" y="608" width="20" height="14" rx="2" fill="#DD5510" opacity="0.72"/><text x="178" y="620" style="'+ff+'" font-size="13" font-weight="600" fill="#334155">'+esc(t.legendOuter)+'</text>';
-  s+='<rect x="320" y="608" width="20" height="14" rx="2" fill="#6E55D6" opacity="0.72"/><text x="348" y="620" style="'+ff+'" font-size="13" font-weight="600" fill="#334155">'+esc(t.legendCentre)+'</text>';
-  s+='<text x="'+(W/2)+'" y="644" text-anchor="middle" style="'+ff+'" font-size="11.5" font-style="italic" fill="#475569">'+esc(t.expAxis)+'</text>';
-  s+='<line x1="30" y1="658" x2="530" y2="658" stroke="#E2E8F0"/>';
-  s+=wrapText(t.statement,W/2,678,ff,"#334155");
-  s+='<text x="'+(W/2)+'" y="742" text-anchor="middle" style="'+ff+'" font-size="10" fill="#94A3B8">'+esc(t.expBasedOn)+'</text>';
-  return s+'</svg>';
+  s+=head;
+  s+='<svg x="30" y="'+figTop+'" width="500" height="463" viewBox="-25 0 670 620">'+inner+'</svg>';
+  s+='<line x1="30" y1="'+(556+dy)+'" x2="530" y2="'+(556+dy)+'" stroke="#E2E8F0"/>';
+  s+='<text x="'+(W/2)+'" y="'+(576+dy)+'" text-anchor="middle" style="'+ff+'" font-size="12.5" fill="#64748B">'+esc(t.expScale)+'</text>';
+  s+='<text x="'+(W/2)+'" y="'+(594+dy)+'" text-anchor="middle" style="'+ff+'" font-size="12.5" fill="#334155">'+esc(summary(roles,data,t))+'</text>';
+  s+='<rect x="150" y="'+(608+dy)+'" width="20" height="14" rx="2" fill="#DD5510" opacity="0.72"/><text x="178" y="'+(620+dy)+'" style="'+ff+'" font-size="13" font-weight="600" fill="#334155">'+esc(t.legendOuter)+'</text>';
+  s+='<rect x="320" y="'+(608+dy)+'" width="20" height="14" rx="2" fill="#6E55D6" opacity="0.72"/><text x="348" y="'+(620+dy)+'" style="'+ff+'" font-size="13" font-weight="600" fill="#334155">'+esc(t.legendCentre)+'</text>';
+  s+='<text x="'+(W/2)+'" y="'+(644+dy)+'" text-anchor="middle" style="'+ff+'" font-size="11.5" font-style="italic" fill="#475569">'+esc(t.expAxis)+'</text>';
+  s+='<line x1="30" y1="'+(658+dy)+'" x2="530" y2="'+(658+dy)+'" stroke="#E2E8F0"/>';
+  s+=wrapText(t.statement,W/2,678+dy,ff,"#334155");
+  s+='<text x="'+(W/2)+'" y="'+(742+dy)+'" text-anchor="middle" style="'+ff+'" font-size="10" fill="#94A3B8">'+esc(t.expBasedOn)+'</text>';
+  return { svg:s+'</svg>', W:W, H:H };
 }
-function exportSVG(meta,roles,data,t){ download(new Blob([buildExportSVG(meta,roles,data,t)],{type:"image/svg+xml"}), slug(meta.title||"siatc")+".svg"); }
+function exportSVG(meta,roles,data,t){ const r=buildExportSVG(meta,roles,data,t); download(new Blob([r.svg],{type:"image/svg+xml"}), slug(meta.title||"siatc")+".svg"); }
 function exportPNG(meta,roles,data,t){
-  const svg=buildExportSVG(meta,roles,data,t);
+  const r=buildExportSVG(meta,roles,data,t), W=r.W, H=r.H;
   const img=new Image();
-  img.onload=function(){ const sc=2,c=document.createElement("canvas");c.width=560*sc;c.height=770*sc;const ctx=c.getContext("2d");ctx.scale(sc,sc);ctx.fillStyle="#fff";ctx.fillRect(0,0,560,770);ctx.drawImage(img,0,0,560,770);c.toBlob(b=>download(b,slug(meta.title||"siatc")+".png"),"image/png"); };
-  img.src="data:image/svg+xml;base64,"+btoa(unescape(encodeURIComponent(svg)));
+  img.onload=function(){ const sc=2,c=document.createElement("canvas");c.width=W*sc;c.height=H*sc;const ctx=c.getContext("2d");ctx.scale(sc,sc);ctx.fillStyle="#fff";ctx.fillRect(0,0,W,H);ctx.drawImage(img,0,0,W,H);c.toBlob(b=>download(b,slug(meta.title||"siatc")+".png"),"image/png"); };
+  img.src="data:image/svg+xml;base64,"+btoa(unescape(encodeURIComponent(r.svg)));
 }
 function exportJSON(meta,roles,data,t,lang){
   const obj={ tool:"sIATC", basedOn:"sIfA Tool (Schomerus/Busara), Apache-2.0", version:1, kind:"sIATC-statement", lang:lang,
