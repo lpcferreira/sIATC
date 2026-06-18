@@ -1,4 +1,4 @@
-# sIATC - Statement of Intellectual Accountability and Transparency for Content
+# sIATC - Statement of Intellectual Accountability and Transparency for Artificial Intelligence use for Content Development.
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20733182.svg)](https://doi.org/10.5281/zenodo.20733182)
 [![Original sIfA DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20285993.svg)](https://doi.org/10.5281/zenodo.20285993)
@@ -143,6 +143,8 @@ Use sIfA when the main object is a research output and the CRediT-style contribu
 8. Add a short note explaining how AI was used.
 9. Export the figure as SVG or PNG, or export the data as a `.sIATC.json` file.
 
+To revise or continue an earlier assessment, click the **Load** button (labelled "Load .siatc.json") and choose a file you exported before. Every field is restored from the file, and the interface switches to the language stored in it, so you never have to re-enter a statement from scratch.
+
 That is the whole loop. The tool is a single HTML page. There is no install, no account, no upload, and no server.
 
 ### How the tool is structured
@@ -226,14 +228,15 @@ The author should be transparent about uncertainty. If a stage sits between "som
 
 ### Saving and exporting
 
-sIATC supports multiple forms of export.
+sIATC supports multiple forms of export, and can reload a previously saved assessment.
 
 - **Download figure as SVG**: exports the visual figure in a scalable vector format suitable for publication, websites, repositories, and documents.
 - **Download figure as PNG**: exports the figure as an image file for easier use in slides, posts, or platforms that do not handle SVG well.
 - **Export data as `.sIATC.json`**: exports the structured data behind the assessment, including the content metadata, stage-level scores, AI tools, notes, and timestamp.
+- **Load `.sIATC.json`**: re-opens a file you exported earlier and restores every field — title, author, and each stage's extent, tool, and note. The interface automatically switches to the language saved in the file. Because each stage is keyed by a stable identifier, a file saved in one language loads correctly even if the interface is in another.
 - **Browser-local interaction**: the tool runs in the browser. No server is required.
 
-The exported `.sIATC.json` file can be used as a machine-readable record of the self-assessment. The SVG or PNG figure can be attached to the content itself, included in a repository, added to supplementary material, or published alongside the piece.
+The exported `.sIATC.json` file can be used as a machine-readable record of the self-assessment. The SVG or PNG figure can be attached to the content itself, included in a repository, added to supplementary material, or published alongside the piece. To update a statement later, load its `.sIATC.json` back into the tool, adjust the fields, and export again.
 
 ### Worked example
 
@@ -796,6 +799,8 @@ Use o sIfA quando o objeto principal for um output de pesquisa e a estrutura de 
 8. Adicione uma nota breve explicando como a IA foi usada.
 9. Exporte a figura como SVG ou PNG, ou exporte os dados como um arquivo `.sIATC.json`.
 
+Para revisar ou continuar uma avaliação anterior, clique no botão **Carregar** (rotulado "Carregar .siatc.json") e escolha um arquivo que você exportou antes. Todos os campos são restaurados a partir do arquivo, e a interface muda para o idioma gravado nele, de modo que você nunca precisa digitar uma declaração do zero novamente.
+
 Esse é todo o fluxo. A ferramenta é uma única página HTML. Não há instalação, conta, upload ou servidor.
 
 ### Como a ferramenta está estruturada
@@ -879,14 +884,15 @@ A autoria deve ser transparente sobre incertezas. Quando uma etapa ficar entre "
 
 ### Salvando e exportando
 
-O sIATC permite diferentes formas de exportação.
+O sIATC permite diferentes formas de exportação e pode recarregar uma avaliação salva anteriormente.
 
 - **Baixar figura como SVG**: exporta a figura em formato vetorial escalável, adequado para publicação, sites, repositórios e documentos.
 - **Baixar figura como PNG**: exporta a figura como imagem, facilitando o uso em slides, posts e plataformas que não lidam bem com SVG.
 - **Exportar dados como `.sIATC.json`**: exporta os dados estruturados da avaliação, incluindo metadados do conteúdo, notas por etapa, ferramentas de IA, explicações e data/hora.
+- **Carregar `.sIATC.json`**: reabre um arquivo que você exportou antes e restaura todos os campos — título, autoria e, para cada etapa, a extensão, a ferramenta e a nota. A interface muda automaticamente para o idioma gravado no arquivo. Como cada etapa é identificada por um código estável, um arquivo salvo em um idioma carrega corretamente mesmo que a interface esteja em outro.
 - **Interação local no navegador**: a ferramenta roda no navegador. Não há servidor.
 
-O arquivo `.sIATC.json` exportado pode ser usado como registro legível por máquina da autoavaliação. A figura SVG ou PNG pode ser anexada ao próprio conteúdo, incluída em um repositório, adicionada como material suplementar ou publicada junto com a peça.
+O arquivo `.sIATC.json` exportado pode ser usado como registro legível por máquina da autoavaliação. A figura SVG ou PNG pode ser anexada ao próprio conteúdo, incluída em um repositório, adicionada como material suplementar ou publicada junto com a peça. Para atualizar uma declaração depois, carregue o `.sIATC.json` dela de volta na ferramenta, ajuste os campos e exporte novamente.
 
 ### Exemplo prático
 
@@ -1451,6 +1457,8 @@ Use sIfA cuando el objeto principal sea un producto de investigación y la estru
 8. Agregue una nota breve explicando cómo se usó la IA.
 9. Exporte la figura como SVG o PNG, o exporte los datos como un archivo `.sIATC.json`.
 
+Para revisar o continuar una evaluación anterior, haga clic en el botón **Cargar** (etiquetado "Cargar .siatc.json") y elija un archivo que haya exportado antes. Todos los campos se restauran a partir del archivo, y la interfaz cambia al idioma guardado en él, de modo que nunca tiene que volver a ingresar una declaración desde cero.
+
 Ese es todo el flujo. La herramienta es una única página HTML. No hay instalación, cuenta, carga de archivos ni servidor.
 
 ### Cómo está estructurada la herramienta
@@ -1534,14 +1542,15 @@ La autoría debe ser transparente sobre las incertidumbres. Cuando una etapa que
 
 ### Guardar y exportar
 
-sIATC permite diferentes formas de exportación.
+sIATC permite diferentes formas de exportación y puede recargar una evaluación guardada anteriormente.
 
 - **Descargar figura como SVG**: exporta la figura en formato vectorial escalable, adecuado para publicación, sitios web, repositorios y documentos.
 - **Descargar figura como PNG**: exporta la figura como imagen, facilitando su uso en presentaciones, posts y plataformas que no manejan bien SVG.
 - **Exportar datos como `.sIATC.json`**: exporta los datos estructurados de la evaluación, incluyendo metadatos del contenido, notas por etapa, herramientas de IA, explicaciones y fecha/hora.
+- **Cargar `.sIATC.json`**: reabre un archivo que exportó antes y restaura todos los campos — título, autoría y, para cada etapa, la extensión, la herramienta y la nota. La interfaz cambia automáticamente al idioma guardado en el archivo. Como cada etapa se identifica con un código estable, un archivo guardado en un idioma se carga correctamente aunque la interfaz esté en otro.
 - **Interacción local en el navegador**: la herramienta se ejecuta en el navegador. No hay servidor.
 
-El archivo `.sIATC.json` exportado puede usarse como registro legible por máquina de la autoevaluación. La figura SVG o PNG puede adjuntarse al propio contenido, incluirse en un repositorio, agregarse como material suplementario o publicarse junto con la pieza.
+El archivo `.sIATC.json` exportado puede usarse como registro legible por máquina de la autoevaluación. La figura SVG o PNG puede adjuntarse al propio contenido, incluirse en un repositorio, agregarse como material suplementario o publicarse junto con la pieza. Para actualizar una declaración más adelante, vuelva a cargar su `.sIATC.json` en la herramienta, ajuste los campos y exporte de nuevo.
 
 ### Ejemplo práctico
 

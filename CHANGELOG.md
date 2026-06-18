@@ -9,6 +9,23 @@ This repository begins with public release `v1.2.0`. Earlier versions `v1.0.0`
 and `v1.1.0` were developed before repository publication and are recorded here
 for continuity, but are not separately archived as GitHub or Zenodo releases.
 
+## [1.3.0] - 2026-06-17
+
+### Added
+
+* Load a previously exported `.siatc.json` file back into the tool. A new
+  **Load .siatc.json** button restores every field — title, author, and each
+  stage's extent, AI tool, and note — so an assessment can be revised or
+  continued without re-entering it. The interface switches automatically to the
+  language recorded in the file, and because stages are keyed by a stable
+  identifier, a file saved in one language loads correctly regardless of the
+  interface language. Loading is fully browser-local: the chosen file is read on
+  the device and nothing is uploaded or sent to a server.
+* Validation on load: files that are not valid JSON, are not sIATC statements
+  (the `kind` discriminator is checked case-insensitively), or were produced by a
+  newer save-format version are rejected with a clear message instead of loading
+  partial data. Out-of-range or missing stage values fall back to safe defaults.
+
 ## [1.2.2] - 2026-06-17
 
 ### Fixed
