@@ -1,15 +1,27 @@
 # Changelog
 
-All notable changes to sIATC are documented here. The format follows
-[Keep a Changelog](https://keepachangelog.com/), and the `version` field of the
-`.siatc.json` save format is bumped only on incompatible changes.
-# Changelog
+All notable changes to sIATC are documented here. The format is inspired by
+[Keep a Changelog](https://keepachangelog.com/), and this project uses semantic
+versioning where practical. The `version` field of the `.siatc.json` save format
+is bumped only on incompatible changes.
 
-All notable changes to sIATC will be documented in this file.
+This repository begins with public release `v1.2.0`. Earlier versions `v1.0.0`
+and `v1.1.0` were developed before repository publication and are recorded here
+for continuity, but are not separately archived as GitHub or Zenodo releases.
 
-This repository begins with public release `v1.2.0`. Earlier versions `v1.0.0` and `v1.1.0` were developed before repository publication and are recorded here for continuity, but are not separately archived as GitHub or Zenodo releases.
+## [1.2.1] - 2026-06-17
 
-The format is inspired by [Keep a Changelog](https://keepachangelog.com/), and this project uses semantic versioning where practical.
+### Fixed
+
+* Corrected the tool's full name in the page header, the browser tab title, and
+  the exported figure caption (SVG/PNG) so it matches the official sIATC name in
+  all three languages:
+  * English — Statement of Intellectual Accountability and Transparency for
+    Artificial Intelligence use for Content Development
+  * Portuguese — Declaração de Responsabilidade Intelectual e Transparência no
+    Uso de IA em Conteúdo
+  * Spanish — Declaración de Responsabilidad Intelectual y Transparencia en el
+    Uso de IA en Contenidos
 
 ## [1.2.0] - 2026-06-17
 
@@ -17,7 +29,9 @@ DOI: https://doi.org/10.5281/zenodo.20733182
 
 First public, DOI-ready release of sIATC.
 
-Although this is the first GitHub release, the version number starts at `v1.2.0` because two earlier pre-publication versions were developed before repository publication.
+Although this is the first GitHub release, the version number starts at `v1.2.0`
+because two earlier pre-publication versions were developed before repository
+publication.
 
 ### Added
 
@@ -87,4 +101,3 @@ sIATC is adapted from the sIfA Tool by Jan Schomerus and Busara, released under 
 * sIATC is adapted from the sIfA Tool by Jan Schomerus and Busara, released under the Apache License 2.0.
 * The brain-figure artwork is reused verbatim from sIfA under the Apache License 2.0.
 * The staged reflection approach is adapted for content work while preserving credit to the original sIfA materials.
-
